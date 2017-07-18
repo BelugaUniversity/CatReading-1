@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=0.36,user-scalable=no,minimal-ui">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="/static/src/css/reset.css">
+		<link rel="stylesheet" href="/static/src/css/login.css">
+		<title>猫阅读登陆</title>
+	</head>
+	<body>
+		<div class="header">
+			<a href="#" class="headerLeft"><img src="/static/src/img/icon/loginArrow.jpg" onclick="javascript:history.back(-1)";></a>
+			<a href="#" class="headerMiddle">登陆</a>
+			<a href="/oneRegister/" class="headerRight">注册</a>
+		</div>
+		<div class="middle">
+			<div class="content" id="content">	
+					<div class="userLogin">
+					<form class="search" autocomplete="off" style="margin-top:20px" name="login">
+						<div class="bkAccount">
+							<input type="text" name="userName" class="accountText beganLogin" id="userName" placeholder='请输入手机号'/>
+						</div>
+						<div class="bkPassword">
+							<input type="password" name="password" id="password" class="accountPassword beganLogin" placeholder='请输入密码'/>
+						</div>
+						<div style="color: #E53935;font-size: 42px; padding-top: 25px;">
+							<span id="error-info"></span>
+						</div>
+						<input type="submit" value="登陆" class="loginButton" />
+						<div class="loginChoose clearfix">
+							<div class="chooseleft clearfix">
+								<img src="/static/src/img/icon/loginPitch.jpg" style="display: block; width:50px; height:50px;" class="loginYes">
+								<img src="/static/src/img/icon/loginNone.png
+								" style="display: none; width:50px; height:50px;" class="loginNo">
+								<span>记住密码</span>
+							</div>
+							<div class="chooseright"><a href="/oneFind/">忘记密码</a></div>
+						</div>
+					</form>
+					<div class="otherWay">
+						<div class="messageLogin"><a href="#">短信快捷登陆</a></div>
+					</div>
+				</div>
+			</div>
+			<!-- content结束 -->
+		</div>
+		<!-- middle结束 -->
+	</body>
+	<script src="/static/src/js/lib/zepto.min.js"></script>
+	<script src="/static/src/js/util/csrfTokenHeader.js"></script>
+	<script>
+
+	$("form").on("submit", function(){
+			var userName = $("#userName").val();
+			var password = $("#password").val();
+
+			$.ajax({
+				beforeSend: csrfTokenHeader,
+				url: "/UserLoginAPIView/",
+  				async: false,
+				data: {userName: userName, password: password},
+				dataType: "json",
+				type: "POST",
+				success: function (data) {
+					console.log(data.code);
+					if(!data.code) {
+						console.log(data.data);
+						window.location.href = "/";
+					}else{
+						console.log(data.data);
+						$("#error-info").empty();
+						$("#error-info").append(data.data);
+					}
+				},
+				error: function (){
+					alert("错误");
+				}
+			});
+			return false;
+		});
+
+
+		<!--var choose = $('.chooseleft');-->
+		<!--var loginYes = $('.loginYes');-->
+		<!--var loginNo = $('.loginNo');-->
+		<!--choose.click(function(){-->
+			<!--loginYes.toggle();-->
+			<!--loginNo.toggle();-->
+			<!--})-->
+		<!--//缓存方法封装-->
+		<!--var Util = (function(){-->
+				<!--var prefix = 'html5_login_';-->
+				<!--var storageGetter = function(key){-->
+					<!--return localStorage.getItem(prefix + key);-->
+				<!--}-->
+				<!--var storageSetter = function(key, val){-->
+					<!--return localStorage.setItem(prefix + key, val);-->
+				<!--}-->
+				<!--return{-->
+					<!--storageGetter:storageGetter,-->
+					<!--storageSetter:storageSetter-->
+				<!--}-->
+			<!--})();-->
+		<!--//登录判断-->
+		<!--var account = $('#userName');-->
+		<!--var loginPassword = $('#password');-->
+		<!--function checksubmit()-->
+		<!--{-->
+		   <!--if (account.val()=="")-->
+	        <!--{-->
+	           <!--alert("用户名不能为空");-->
+	           <!--return false;-->
+	         <!--} -->
+		   <!--if (loginPassword.val()=="")-->
+	        <!--{-->
+	           <!--alert("密码不能为空");-->
+	           <!--return false;-->
+	        <!--}-->
+		   <!--else{-->
+		   	   <!--//存取用户名和密码-->
+		   	   <!--if($('.loginYes').css('display')=="block"){-->
+		   	   	 <!--//判断是否选中记住密码-->
+		   	   	 <!--Util.storageSetter("Account", account.val());-->
+		   	   	 <!--Util.storageSetter("Password", loginPassword.val());-->
+		   	   <!--}else{-->
+		   	   	<!--Util.storageSetter("Account", account.val());-->
+		   	   <!--}-->
+		   	   <!--//不记住密码时清除本地存储-->
+				<!--if($('.loginNo').css('display')=="block"){-->
+					<!--console.log(0);-->
+					<!--Util.storageSetter("Password", '');-->
+				<!--}-->
+		   <!--}		   -->
+		<!--}-->
+		<!--//页面加载时判断有无本地存储-->
+		<!--var initAccount = Util.storageGetter('Account');-->
+		<!--var initPassword = Util.storageGetter('Password');-->
+		<!--if(initAccount){-->
+			<!--account.val(initAccount);-->
+		<!--}-->
+		<!--if(initPassword){-->
+			<!--loginPassword.val(initPassword);-->
+		<!--}-->
+	</script>

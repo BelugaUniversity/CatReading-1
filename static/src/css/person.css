@@ -1,0 +1,244 @@
+.book-id{
+	font-size: 48px;
+	display: inline;
+	color: #898989;
+	line-height: 130px;
+	font-weight: 400;
+	padding-left: 104px;
+	margin-right: 10px;
+}
+
+.myBook{
+	background: url(../../../static/src/img/icon/star.png) no-repeat 44px;
+}
+
+.mybook-ul{
+	padding: 34px 10px 34px 34px;
+	border-bottom: 4px solid #DDDDDD;
+	overflow: hidden;
+	display: block;
+}
+
+
+.watching-book{
+	padding: 34px;
+	border-bottom: 4px solid #DDDDDD;
+	overflow: hidden;
+	display: block;
+}
+
+.watching-book-id{
+	position: absolute;
+	right: 0;
+}
+
+.book-mydesc {
+    font-size: 40px;
+    font-family: "微软雅黑";
+    line-height: 50px;
+    overflow: hidden;
+    margin: 1rem 0 0 0;
+    color: #636563;
+    display: -webkit-box;
+    height: 50px;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 1;
+}
+
+.book-mydesc span{
+	color: #000000;
+	-webkit-line-clamp: 1;
+}
+
+.book-button{
+	margin-top: 1rem;
+	height: 8rem;
+}
+
+.startReading{
+	background-color: rgb(229, 57, 53);
+	color: #ffffff;
+	height: 100%;
+	width: 19.2rem;
+	font-size: 36px;
+	border-radius: 5% 5%;
+	font-weight: 300;
+}
+
+.watchNew{
+	height: 100%;
+	font-weight: 320;
+	width: 28.8rem;
+	font-size: 36px;
+	background-color: rgb(250, 247, 242);
+	border-radius: 5% 5%;
+	float: right;
+	border: none;
+}
+
+.headerRead{
+	width: 100%;
+	height: 126px;
+	background-color: #FFF;
+	font-size: 40px;
+	line-height: 126px;
+	margin: 0;
+}
+
+.headerText{
+	color: #000;
+	font-style: 300;
+}
+
+.headerLast{
+	border-right: solid 5px #DDD;
+	padding-right: 20px;
+	margin-right: 15px;
+	margin-left: 20%;
+}
+
+.headerWarn{
+
+}
+
+.userName{
+	background: url(../../../static/src/img/icon/avator.jpg) no-repeat 33px;
+	margin-right: 31px;
+	float: right;
+	padding-left: 100px;
+}
+
+.myWallet{
+	background: url(../../../static/src/img/icon/wallet.png) no-repeat 44px;
+}
+
+.myMoney{
+	padding: 20px 20px 20px 20px;
+}
+
+.moneyKind{
+	font-size: 40px;
+	margin-left: 45px;
+}
+
+.moneyKind li{
+	margin-top: 20px;
+	height: 8rem;
+
+}
+
+.mkind{
+	margin-right: 135px;
+}
+
+.mkind2{
+	margin-right: 90px;
+}
+
+.mnumber{
+	font-family: "微软雅黑";
+	font-size: 60px; 
+	font-style: 900;
+	margin-right: 45px;
+}
+
+.payMoney{
+	float: right;
+	margin-right: 5%;
+}
+
+.myCommand{
+	background: url(../../../static/src/img/icon/myCommand.jpg) no-repeat 33px;
+}
+
+.nothing{
+	font-size: 45px;
+	padding: 40px 0px 40px 90px;
+	color: #AAA;
+}
+
+.content{
+	padding-bottom: 0;
+}
+
+.lastcontent{
+	padding-bottom: 50px;
+}
+/*评论区*/
+.recentContent {
+    line-height: 142px;
+    font-size: 44px;
+    color: #636563;
+    padding-left: 38px;
+    display: block;
+    border-top: 3px solid #EFEFEF;
+}
+.bookCommand{
+	width: 100%;
+	border-bottom: 3px solid #EFEFEF;
+}
+.cmTitle{
+	font-size: 44px;
+	color: #2992CE;
+	line-height: 68px;
+	padding: 42px 0;
+}
+.titleSpecial{
+	color: #339933;
+}
+.cmContent{
+	font-size: 38px;
+	color: #666;
+	line-height: 58px;
+}
+.cmInfo{
+	font-size: 34px;
+	color: #999;
+	line-height: 80px;
+}
+.infoWritter{
+	display: inline-block;
+}
+.infoWritter a{
+	color: #999;
+}
+.infoTime{
+	display: inline-block;
+	float: right;
+	padding-right: 34px;
+}
+.recentFooter{
+	width: 100%;
+	height: 128px;
+	border-bottom: 3px solid #EFEFEF;
+	border-top: 3px solid #EFEFEF;
+}
+.recentFooter a{
+	width: 298px;
+	height: 90px;
+	display: block;
+	border: #F2F2F2 4px solid;
+	border-radius: 100px;
+	text-align: center;
+	line-height: 90px;
+	color: #2992CE;
+	font-size: 46px;
+	margin: 0 auto;
+	margin-top: 14px;
+}
+.exit{
+	width: 90%;
+	height: 100px;
+	border: 2px solid #E53935;
+	font-size: 46px;
+	line-height: 100px;
+	border-radius: 38px;
+	display: inline-block;
+	margin-top: 50px;
+	background-color: #E53935;
+	color: #FFF;
+}
+.exit:active{
+	opacity: 0.5;
+}

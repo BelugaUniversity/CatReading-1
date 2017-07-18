@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title></title>
+<!-- 	<link rel="stylesheet" type="text/css" href="/static/src/css/vegetable.main.css">
+	<link rel="stylesheet" type="text/css" href="/static/src/css/chinese.css"> -->
+	<link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+</head>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="opacity: 0.9;">
+    <div class="container-fluid">
+             <div id="navbar" class="navbar-collapse collapse">
+                 <a class="navbar-brand" href="#">猫阅读</a>
+            </div>
+    </div>
+</nav>
+
+<body style="width: 100%;";>
+	<div class="container-fluid" style="background: url(/static/src/img/bg.jpg); background-size: 100% 100%; position: fixed; bottom: 0px; left: 0px; right: 0px; top: 0px;">
+
+		<div class="row" style="margin-top: 150px;">
+
+			<div class="col-sm-4 col-sm-offset-4">
+
+			  	<div class="panel panel-default" style="opacity: 0.85;">
+			    	<div class="panel-body" style="padding-bottom: 35px;">
+						<p>用户名</p>
+						<input id="userName" type="text" class="form-control" placeholder="用户名" name="">
+						<br><br>
+						<p>密码</p>
+						<input id="password" type="password" class="form-control" placeholder="密码" name="">
+			    	</div>
+			    	<div class="panel-footer">
+						<div id="submit" class="btn btn-primary" style="width: 100%;">
+							登录
+						</div>
+			    	</div>
+			  	</div>
+
+			</div>
+		</div>
+
+	<div>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+	<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+	<script src="/static/src/js/util/csrfTokenHeader.js"></script>	
+	<script type="text/javascript">
+		$("#submit").on("click", function(){
+			var userName = $("#userName").val();
+			var password = $("#password").val();
+
+			$.ajax({
+				beforeSend: csrfTokenHeader,
+				url: "/UserLoginAPIView/",
+  				async: false,
+				data: {userName: userName, password: password},
+				dataType: "json",
+				type: "POST",
+				success: function (data) {
+					console.log(data.code);
+					if(!data.code) {
+						console.log(data.data)
+						window.location.href = "/bookManager/";
+					}
+				},
+				error: function (){
+					alert("错误");
+				}
+			});
+			return false;			
+		});
+	</script>
+</body>
+</html>

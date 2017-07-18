@@ -1,0 +1,136 @@
+
+.header{
+	height: 158px;
+	width: 100%;
+	background-color: #E53935;
+	font-size: 48px;
+	color: #FFF;
+	display:-moz-box; /* Firefox */
+	display:-webkit-box;
+	display: flex;
+	justify-content: space-between;
+}
+.headerLeft{
+	height: 114px;
+	width: 70px;
+	-moz-box-flex:1.0; /* Firefox */
+	-webkit-box-flex:1.0; /* Safari and Chrome */
+	box-flex:1.0;
+	padding: 44px 0 0 31px;
+	display: inline-block;
+	color: #FFF;
+}
+.headerMiddle{
+	height: 158px;
+	line-height: 158px;
+	text-align: center;
+	-moz-box-flex:1.0; /* Firefox */
+	-webkit-box-flex:1.0; /* Safari and Chrome */
+	box-flex:1.0;
+	display: inline-block;
+	color: #FFF;
+}
+.headerRight{
+	height: 158px;
+	margin-right: 61px;
+	line-height: 158px;
+	-moz-box-flex:1.0; /* Firefox */
+	-webkit-box-flex:1.0; /* Safari and Chrome */
+	box-flex:1.0;
+	display: inline-block;
+	color: #FFF;
+
+}
+/*内容*/
+.middle{
+	width: 100%;
+	height: 2000px; 
+	background-color: #F5F5F5;
+	overflow: hidden;
+}
+.content{
+	padding: 38px 31px 36px 31px;
+	margin-top: 100px;
+}
+/*搜索*/
+.search{
+	margin-top: 18px;
+}
+.bkAccount{
+	width: 100%;
+	height: 130px;
+	background: url(../../../static/src/img/icon/loginPerson.jpg) no-repeat 36px;
+	background-color: #FFF;
+	overflow: hidden;
+	border-bottom: 4px solid #DDD;
+	border-top: 4px solid #DDD;
+}
+.beganLogin{
+	width: 100%;
+	height: 54px;
+	border: none;
+	font-size: 42px;
+	text-indent: .75em;
+	color: #333;
+	border-radius: 5px;
+	display: inline-block;
+	margin: 45px 0 46px 110px;
+}
+.bkPassword{
+	width: 100%;
+	height: 130px;
+	background: url(../../../static/src/img/icon/loginLock.jpg) no-repeat 36px;
+	background-color: #FFF;
+	overflow: hidden;
+	border-bottom: 4px solid #DDD;
+}
+.loginButton{
+	width: 100%;
+	height: 156px;
+	border-radius: 10px;
+	border: 2px solid #E53935;
+	background-color: #E53935;
+	margin-top: 80px;
+	font-size: 52px;
+	color: #FFF;
+}
+.loginButton:active{
+	opacity: 0.7;
+}
+input::-webkit-input-placeholder{  /*改变搜索框内默认颜色*/
+    color: #CECECE;
+}
+.loginChoose{
+	width: 100%;
+	margin-top: 72px;
+	color: #E53935;
+	font-size: 42px;
+}
+.loginChoose img{
+	display: inline;
+	float: left;
+	margin-right: 10px;
+}
+.chooseleft{
+	float: left;
+	text-align: center;
+}
+.chooseright{
+	float: right;
+}
+.chooseright a{
+	color: #E53935;
+}
+.otherWay a{
+	font-size: 42px;
+	color: #E53935;
+}
+.messageLogin{
+	width: 100%;
+	text-align: center;
+	margin: 122px 0;
+	color: #E53935; 
+}
+.line_m{
+	text-decoration: line-through;
+}

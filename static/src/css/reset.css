@@ -1,0 +1,31 @@
+/* CSS Document */
+
+@charset "utf-8";
+
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div,dl,dt,dd,input,em,span,form,input{margin:0;padding:0;}
+
+body{font-size:10px;}
+
+img{border:none;}
+
+li{list-style:none;}
+
+input,select,textarea{outline:none;}
+
+textarea{resize:none;}
+
+em{font-style: normal;}
+
+a{text-decoration:none;	color:#636563;}
+
+a:active{
+	background: #CCC;
+	opacity: 0.5;
+}
+/*清除浮动*/
+.clearfix:after {content:"."; display:block; height:0; visibility:hidden; clear:both; }
+.clearfix { *zoom:1; }
+
+[v-cloak]{
+    display: none;
+}

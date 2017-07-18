@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=0.36,user-scalable=no,minimal-ui">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="/static/src/css/reset.css">
+		<link rel="stylesheet" href="/static/src/css/main.css">
+		<link rel="stylesheet" href="/static/src/css/person.css">
+	<title>个人中心</title>
+</head>
+<body>
+	<div>
+		<div class="headerFirst">
+			<div class="headerLogo">
+				<img src="" alt="icon">
+			</div>
+			<div class="headNav">
+					<div class="headerNav">
+						<a href="/">首页</a>
+						<a href="/library/">书库</a>
+						<a href="/rank/">排行</a>
+						<a href="/payContail/">充值</a>
+					</div>
+			</div>
+		</div>
+		<div class="headerRead">
+			<a href="#" class="headerText headerLast">最近阅读</a>
+			<a href="#" class="headerText headerWarn">提醒</a>
+			<a href="/center/" class="headerText userName"><img src="/static/src/img/icon/writter.jpg"></a>
+		</div>
+
+		<div class="middle">
+			
+			<div class="content" id="myBook">
+			 	<div style="background: #FFF;">
+				<div class="module-header">
+					<div class="module-header-l">
+						<h3 class="module-title myBook">我的追书</h3>
+					</div>
+				</div>
+				
+				<ul class="mybook-ul">
+					<li class="book-li" v-for="myBook in myBooks">
+						<a href="#">
+							<div class="bookImg">									
+								<img v-bind:src="'/static/coverImg/' + [[ myBook.coverImg ]]" alt="我的追书">
+							</div>
+							<div class="book-cell">
+								<h4 class="book-title" style="font-weight:500;">最近更新</h4>
+								<a v-bind:href="'/books/'+[[ myBook.bookId ]]+'/'+'chapters/'+[[ myBook.recentlyCharpterNumber ]]+'/'">
+									<p class="book-mydesc"><span>最后更新：</span>第[[ myBook.recentlyCharpterNumber ]]章：[[ myBook.recentlyCharpter ]]</p>
+								</a>
+								<a v-bind:href="'/books/'+[[ myBook.bookId ]]+'/'+'chapters/'+[[ myBook.lastReadCharpterNumber ]]+'/'">
+									<p class="book-mydesc"><span>上次读到：</span>第[[ myBook.lastReadCharpterNumber ]]章：[[ myBook.lastReadCharpter ]]</p>
+								</a>
+								<div class="book-button">
+									<a v-bind:href="'/books/'+[[ myBook.bookId ]]+'/'+'chapters/'+[[ myBook.recentlyCharpterNumber ]]+'/'">
+										<button class="startReading">
+											开始阅读
+										</button>
+									</a>
+									<a v-bind:href="'/books/'+[[ myBook.bookId ]]+'/'+'chapters/'+[[ myBook.recentlyCharpterNumber ]]+'/'">
+										<button class="watchNew" v-on:click="showAll">
+											查看最新章节
+										</button>
+									</a>
+								</div>
+							</div>
+						</a>
+					</li>
+				</ul>
+
+				<div class="recentFooter">
+					<a style="width:300px;" v-on:click="showAll" id="allBook">全部追书</a>
+					<a style="width:300px;display: none;" v-on:click="hideAll" id="hideBook" >收回</a>
+				</div>
+				</div>
+			</div>
+
+			<div class="content" id="content">
+				<div style="background: #FFF;">
+				<div class="module-header">
+					<div class="module-header-l">
+						<h3 class="module-title myWallet">我的钱包</h3>
+					</div>
+				</div>
+
+				<div class="myMoney" id="myMoney">
+					<ul class="moneyKind">
+						<li>
+							<span class="mkind">我的余额</span>
+							<span class="mnumber">[[ balance ]]</span>
+							<span class="mmuch">猫币</span>
+							<a href="/payContail/"><button class="startReading payMoney">我要充值</button></a>
+						</li>
+						<li>
+							<span class="mkind2">我的钻石票</span>
+							<span class="mnumber">[[ diamondTicket ]]</span>
+							<span class="mmuch">票</span>
+							<button class="startReading payMoney">查看记录</button>
+						</li>
+						<li>
+							<span class="mkind2">我的推荐票</span>
+							<span class="mnumber">[[ recommendTicket ]]</span>
+							<span class="mmuch">票</span>
+						</li>
+					</ul>
+				</div>
+				</div>
+			</div>
+
+			<div class="content lastcontent" id="bookCommand">
+				<div style="background: #FFF;">
+					<div class="module-header">
+						<div class="module-header-l">
+							<h3 class="module-title myCommand">我的评论</h3>
+						</div>
+					</div>
+					<div class="nothing" style="display: none;">
+						还没有发表过评论
+					</div>
+					<div class="recentContent">
+						<div class="recentContent">
+							<div class="bookCommand" V-for="command in commands">
+								<div class="cmTitle">
+									<span class="titleSpecial" V-if="command.commentStick">[置顶]</span>
+									<span class="titleSpecial" V-if="command.commentEssence">[精华]</span>
+									[[ command.commentTitle ]]
+								</div>
+								<div class="cmContent">
+									[[ command.commentContent ]]
+								</div>
+								<div class="cmInfo">
+									<div class="infoWritter">
+										<a v-bind:href="'/books/'+[[ command.bookId ]]+'/'">《[[ command.bookName ]]》</a>
+									</div>
+									<div class="infoTime">[[ command.commentTime ]]</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="recentFooter">
+						<a href="/userHistoryComment/" style="width:300px;">更多评论</a>
+					</div>
+				</div>
+				<div style="text-align: center;"><span class="exit" v-on:click="exitLogin" >退出登录</span></div>
+			</div>
+
+		</div>
+
+		<!--<div class="footer">-->
+			<!--<p class="footerTit">关于猫阅读  联系我们</p>-->
+			<!--<p class="footerTxt">客服邮箱：maoyuedu@maoyuedu.com</p>-->
+			<!--<p class="footerTxt">客服电话：010-12345678</p>-->
+			<!--<p class="footerTxt">客服QQ：123456789</p>-->
+			<!--<p class="footerTxt">京ICP证123456号 京ICP备123456号-1</p>-->
+			<!--<p class="footerTxt">Copyright © 2017 maoyd.com All rights reserved.</p>-->
+		<!--</div>-->
+	</div>
+	<script src="/static/src/js/lib/zepto.min.js"></script>
+	<script src="/static/src/js/lib/vue.js"></script>
+	<script src="/static/src/js/app/account/concret.js"></script>
+</body>
+</html>

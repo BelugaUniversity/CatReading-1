@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+        <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+        <link href="/static/src/css/webuploader/webuploader.css" rel="stylesheet">
+    <script src="/static/src/js/lib/webuploader/webuploader.js"></script>
+    	<script src="/static/src/js/util/csrfTokenHeader.js"></script>
+
+</head>
+<body>
+
+    <h1>支付</h1>
+
+</body>
+<script>
+     $(document).ready(function(){
+         $.get("/AlipayAPIView/",{
+                book: 1
+            }, function(data){
+
+            });
+    });
+</script>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../favicon.ico">
+    <title>用户管理</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/src/css/admin/dashboard.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">猫阅读</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid" id="app">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a href="/bookManager/">书籍管理</a></li>
+                    <li><a href="/userManager/">用户管理</a></li>
+                    <li class="active"><a href="#">数据统计</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                总访问量 ： <br>
+                                <div class="text-center"><label class="h2">[[TotalPVNumber]]</label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                总注册量<br>
+                                <div class="text-center"><label class="h2">[[TotalRegisterNumber]]</label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        总打赏量<br>
+                                        <label class="h2">[[TotalRewardNumber]]</label>
+                                    </div>                             
+                                   <div class="col-sm-3">
+                                            &nbsp&nbsp&nbsp猫球 :                                             
+                                            <label>[[TotalCatBallNumber]]</label><br>
+                                            猫薄荷 : <label>[[TotalCatnipNumber]]</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            逗猫棒 : <label>[[TotalCatStickNumber]]</label><br>
+                                            &nbsp&nbsp&nbsp猫粮 : <label>[[TotalCatFoodNumber]]</label>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            &nbsp&nbsp&nbsp鱼 : <label>[[TotalCatFishNumber]]</label><br>
+                                            猫窝 : <label>[[TotalCatHouseNumber]]</label>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 text-center">
+                        <div class="panel panel-default">
+                            <div id="PVChartBox" class="panel-body">
+                                <canvas id="PVChart" height="100%"></canvas>
+                                <label>最近7日访问量</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        <div class="panel panel-default">
+                            <div id="RewardChartBox" class="panel-body">
+                                <canvas id="RewardChart" height="100%"></canvas>
+                                <label>最近7日打赏量</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="nav nav-tabs" style="margin-top: 20px">
+                    <li id="nav-dayData" onClick="changePageDataType('dayDataStatics')" role="presentation"><a href="#">日数据</a></li>
+                    <li id="nav-monthData" onClick="changePageDataType('monthDataStatics')" role="presentation"><a href="#">月数据</a></li>
+                </ul>
+
+                <div id="dayDataStatics" class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <!--<th>数据Id</th>-->
+                                <th>时间</th>
+                                <th>日订阅量</th>
+                                <th>日追书量</th>
+                                <th>日注册量</th>
+                                <th>日访问量</th>
+                                <th>日充值量</th>
+                                <th>日打赏额</th>
+                            </tr>
+                        </thead>
+                        <tbody  v-for="dayDataItem in dayDataItems">
+                            <tr>
+                                <!--<td>[[dayDataItem.id]]</td>-->
+                                <td>[[dayDataItem.produceDataDate]]</td>
+                                <td>[[dayDataItem.daySubscribersNumber]]</td>
+                                <td>[[dayDataItem.dayChaseBooksNumber]]</td>
+                                <td>[[dayDataItem.dayLogonNumber]]</td>
+                                <td>[[dayDataItem.dayPVNumber]]</td>
+                                <td>[[dayDataItem.dayRechargeNumber]]</td>
+                                <td>[[dayDataItem.dayRewardNumber]]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <nav class="text-right" style="margin-bottom: 50px;">
+                        <span>页数:[[dayDataNumPage]]/[[dayDataPageNumber]]</span>
+                        <button v-on:click="turnPage(dayDataNumPage - 1, 'day')" type="button" class="btn btn-primary" style="margin-left: 10px;">上一页</button>
+                        <button v-on:click="turnPage(dayDataNumPage + 1, 'day')" type="button" class="btn btn-primary" style="margin-left: 5px;">下一页</button>
+                    </nav>
+                </div>
+
+                <div id="monthDataStatics"  class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <!--<th>数据Id</th>-->
+                                <th>时间</th>
+                                <th>月订阅量</th>
+                                <th>月追书量</th>
+                                <th>月注册量</th>
+                                <th>月访问量</th>
+                                <th>月充值量</th>
+                                <th>月打赏额</th>
+                            </tr>
+                        </thead>
+                        <tbody  v-for="monthDataItem in monthDataItems">
+                            <tr>
+                                <!--<td>[[monthDataItem.id]]</td>-->
+                                <td>[[monthDataItem.produceDataDate]]</td>
+                                <td>[[monthDataItem.monthSubscribersNumber]]</td>
+                                <td>[[monthDataItem.monthChaseBooksNumber]]</td>
+                                <td>[[monthDataItem.monthLogonNumber]]</td>
+                                <td>[[monthDataItem.monthPVNumber]]</td>
+                                <td>[[monthDataItem.monthRechargeNumber]]</td>
+                                <td>[[monthDataItem.monthRewardNumber]]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <nav class="text-right" style="margin-bottom: 50px;">
+                        <span>页数:[[monthDataNumPage]]/[[monthDataPageNumber]]</span>
+                        <button v-on:click="turnPage(monthDataNumPage - 1, 'month')" type="button" class="btn btn-primary" style="margin-left: 10px;">上一页</button>
+                        <button v-on:click="turnPage(monthDataNumPage + 1, 'month')" type="button" class="btn btn-primary" style="margin-left: 5px;">下一页</button>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="/static/src/js/lib/vue.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/static/src/js/lib/chart/Chart.min.js"></script>
+    <script src="/static/src/js/app/admin/DoughnutChart.js"></script>
+    <!--<script src="/static/src/js/util/csrfTokenHeader.js"></script>-->
+    <script type="text/javascript">
+
+    $("#monthDataStatics").hide();
+    $("#nav-dayData").addClass('active');
+
+    var totalData = new Vue({
+            el: "#app",
+            delimiters: ['[[', ']]'],
+            data: {
+                    dayDataNumPage: 1,
+                    dayDataPageNumber: 1,
+                    monthDataNumPage: 1,
+                    monthDataPageNumber: 1,
+                    TotalPVNumber: 0,
+                    TotalRegisterNumber: 0,
+                    TotalRewardNumber: 0,
+                    TotalCatBallNumber: 0,
+                    TotalCatnipNumber: 0,
+                    TotalCatStickNumber: 0,
+                    TotalCatFoodNumber: 0,
+                    TotalCatFishNumber: 0,
+                    TotalCatHouseNumber: 0,
+                    dayDataItems: [],
+                    monthDataItems: [],
+                    lineCharData: []
+                },
+            methods: {
+                turnPage: function (numPage, type) {
+                    var pageNumber;
+                    var dayDataNumPage =  totalData.dayDataNumPage;
+                    var monthDataNumPage = totalData.monthDataNumPage;
+                    if('day' == type){
+                        pageNumber = totalData.dayDataPageNumber;
+                        dayDataNumPage = numPage;
+                    }
+                    else{
+                        pageNumber = totalData.monthDataPageNumber;
+                        monthDataNumPage = numPage;
+                    }
+                    if( (numPage <= pageNumber) && (numPage >= 0) )
+                    {
+                        $.get("/DataStaticsAPIView/", {
+                            dayDataNumPage: dayDataNumPage,
+                            monthDataNumPage: monthDataNumPage
+                        }, function(data) {
+                            data = $.parseJSON(data);
+                            totalData.dayDataNumPage = dayDataNumPage;
+                            totalData.monthDataNumPage = monthDataNumPage;
+                            totalData.dayDataItems = data.dayData;
+                            totalData.monthDataItems = data.monthData;
+                        });
+                    }
+                }
+            }
+        });
+
+
+    <!--周数据与月数据的切换-->
+    function changePageDataType(type){
+        if('dayDataStatics' == type){
+            $("#monthDataStatics").hide();            
+            $("#dayDataStatics").show();
+            $("#nav-monthData").removeClass('active');            
+            $("#nav-dayData").addClass('active');
+        }else{
+            $("#dayDataStatics").hide();                        
+            $("#monthDataStatics").show();
+            $("#nav-dayData").removeClass('active');                        
+            $("#nav-monthData").addClass('active')            
+        }
+    }
+
+    <!--加载时候请求-->
+    $.ajax({
+        url: "/DataStaticsAPIView/",
+        async: false,
+        type: "GET",
+        data: {
+            dayDataNumPage: totalData.dayDataNumPage,
+            monthDataNumPage: totalData.monthDataNumPage
+        },
+        success: function(data) {
+            data = $.parseJSON(data);
+            totalData.dayDataPageNumber = data.dayDataPageNumber;
+            totalData.monthDataPageNumber = data.monthDataPageNumber;
+            totalData.TotalRegisterNumber = data.TotalLogonNumber;
+            totalData.TotalRewardNumber = data.TotalRewardNumber;
+            totalData.TotalCatBallNumber = data.TotalCatBallNumber;
+            totalData.TotalCatnipNumber = data.TotalCatnipNumber;
+            totalData.TotalCatStickNumber = data.TotalCatStickNumber;
+            totalData.TotalCatFoodNumber = data.TotalCatFoodNumber;
+            totalData.TotalCatFishNumber = data.TotalCatFishNumber;
+            totalData.TotalCatHouseNumber = data.TotalCatHouseNumber;
+            totalData.dayDataItems = data.dayData;
+            totalData.monthDataItems = data.monthData;
+            totalData.lineCharData = data.lineCharData
+        },
+        error: function() {
+            alert("创建失败");
+        }
+    });
+
+<!--画图-->
+
+var defaults = {
+
+    //Boolean - If we show the scale above the chart data
+    scaleOverlay : false,
+
+    //Boolean - If we want to override with a hard coded scale
+    scaleOverride : false,
+
+    //** Required if scaleOverride is true **
+    //Number - The number of steps in a hard coded scale
+    scaleSteps : 1,
+
+
+    //Number - The value jump in the hard coded scale
+    scaleStepWidth : 30,
+
+    // Y 轴的起始值
+    scaleStartValue : null,
+
+    // Y/X轴的颜色
+    scaleLineColor : "rgba(0,0,0,.1)",
+
+    // X,Y轴的宽度
+    scaleLineWidth : 2,
+
+    // 刻度是否显示标签, 即Y轴上是否显示文字
+    scaleShowLabels : true,
+
+    // Y轴上的刻度,即文字
+    scaleLabel : "<%=value%>",
+
+    // 字体
+    scaleFontFamily : "'Arial'",
+
+    // 文字大小
+    scaleFontSize : 12,
+
+    // 文字样式
+    scaleFontStyle : "normal",
+
+    // 文字颜色
+    scaleFontColor : "#666",
+
+    // 是否显示网格
+    scaleShowGridLines : true,
+
+    // 网格颜色
+    scaleGridLineColor : "rgba(0,0,0,.05)",
+
+    // 网格宽度
+    scaleGridLineWidth : 2,
+
+    // 是否使用贝塞尔曲线? 即:线条是否弯曲
+    bezierCurve : true,
+
+    // 是否显示点数
+    pointDot : true,
+
+    // 圆点的大小
+    pointDotRadius : 5,
+
+    // 圆点的笔触宽度, 即:圆点外层白色大小
+    pointDotStrokeWidth : 0,
+
+    // 数据集行程
+    datasetStroke : true,
+
+    // 线条的宽度, 即:数据集
+    datasetStrokeWidth : 2,
+
+    // 是否填充数据集
+    datasetFill : true,
+
+    // 是否执行动画
+    animation : true,
+
+    // 动画的时间
+    animationSteps : 30,
+
+    // 动画的特效
+    animationEasing : "easeOutQuart",
+
+    // 动画完成时的执行函数
+    onAnimationComplete : null
+}
+
+var date_labels = new Array();
+var chartPVNumberData = new Array();
+var chartRewardNumberData = new Array();
+
+for (var i = 6; i >= 0; i--) {
+    date_labels.push(totalData.lineCharData[i].produceDataDate);
+    chartPVNumberData.push(totalData.lineCharData[i].dayPVNumber);
+    chartRewardNumberData.push(totalData.lineCharData[i].dayRewardNumber);
+}
+
+var dayData = {
+    labels : date_labels,
+    datasets : [
+        {
+            lineItemName : "test1",
+            fillColor : "rgba(220,220,220,0.5)",
+            strokeColor : "rgba(220,220,220,1)",
+            pointColor : "rgba(220,220,220,1)",
+            pointStrokeColor : "#fff",
+            data : chartPVNumberData
+        }
+    ]
+};
+
+
+var monthData = {
+    labels : date_labels,
+    datasets : [
+        {
+            lineItemName : "test1",
+            fillColor : "rgba(220,220,220,0.5)",
+            strokeColor : "rgba(220,220,220,1)",
+            pointColor : "rgba(220,220,220,1)",
+            pointStrokeColor : "#fff",
+            data : chartRewardNumberData
+        }
+    ]
+};
+
+
+window.onload = function(){
+    var ctx = document.getElementById("PVChart").getContext("2d");
+    var width = $("#PVChartBox").width();
+    document.getElementById("PVChart").width = width;
+    var chartLine = new Chart(ctx).Line(dayData, defaults);
+
+    initEvent(chartLine, clickCall);
+
+    var ctx = document.getElementById("RewardChart").getContext("2d");
+    var width = $("#RewardChartBox").width()
+    document.getElementById("RewardChart").width = width;
+    var chartLine = new Chart(ctx).Line(monthData, defaults);
+
+    initEvent(chartLine, clickCall);
+}
+
+function clickCall(evt) {
+    var point = chartLine.getPointSingleAtEvent(evt);
+
+    if ( point !== null )
+        alert( point.label + ": " + point.lineItemName + " ____ " + point.value);
+}
+
+function initEvent(chart, handler) {
+    var method = handler;
+    var eventType = "click";
+    var node = chart.chart.canvas;
+
+    if (node.addEventListener) {
+        node.addEventListener(eventType, method);
+    } else if (node.attachEvent) {
+        node.attachEvent("on" + eventType, method);
+    } else {
+        node["on" + eventType] = method;
+    }
+}
+    </script>
+</body>
+
+</html>

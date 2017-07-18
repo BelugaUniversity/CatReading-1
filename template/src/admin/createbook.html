@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>猫阅读后台管理</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- Custom styles for this template -->
+    <link href="/static/src/css/admin/dashboard.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <style type="text/css">
+    .bookMenu tbody tr td {
+        line-height: 133px;
+    }
+    
+    .sub-header span {
+        color: #AAA;
+    }
+    
+    .funcButton a {
+        height: 33%;
+        width: 100%;
+    }
+    
+    .achieve button {
+        padding: 10px 40px 10px 40px;
+    }
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/bookManager/">猫阅读</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li class="active"><a href="/bookManager/">书籍管理<span class="sr-only">(current)</span></a></li>
+                    <li><a href="/userManager/">用户管理</a></li>
+                    <li><a href="/datastatistics/">数据统计</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="app">
+                <ol class="breadcrumb">
+                    <li><a href="/bookManager/">书籍管理</a></li>
+                    <li class="active">书籍创建</li>
+                </ol>
+                <form class="form-horizontal" role="form" style="margin-top: 90px;" id="form">
+                    <div class="form-group">
+                        <label for="firstname" class="col-sm-2 control-label">作品名称</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="firstname">
+                        </div>
+                    </div>
+                    <div>
+                        <p style="margin-left: 200px; color: #AAA;">15字内，请勿添加书名号等特殊符号</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname" class="col-sm-2 control-label">作者</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" id="writename">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname" class="col-sm-2 control-label">作品类型</label>
+                        <div class="col-sm-5">
+                            <select class="form-control" id="writekind">
+                                <option value="1">仙剑</option>
+                                <option value="2">玄幻</option>
+                                <option value="3">悬疑</option>
+                                <option value="4">奇幻</option>
+                                <option value="5">军事</option>
+                                <option value="6">历史</option>
+                                <option value="7">竞技</option>
+                                <option value="8">科幻</option>
+                                <option value="9">校园</option>
+                                <option value="10">社会</option>
+                                <option value="11">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname" class="col-sm-2 control-label">作品介绍</label>
+                        <div class="col-sm-5">
+                            <textarea class="form-control" rows="4" id="discreb"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="margin-left: 200px; color: #AAA;">20~300字</p>
+                    </div>
+                    <div class="achieve" style="margin-left: 200px;">
+                        <button type="button" class="btn btn-info" onclick="creandsub()">创建作品</button>
+                        <button type="button" class="btn btn-default">返回上一步</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+    window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
+    </script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/static/src/js/util/csrfTokenHeader.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script type="text/javascript">
+    function creandsub(){
+        var bookName=$("#firstname").val();
+        var author=$("#writename").val();
+        var type=$("#writekind").val();
+        var describe=$("#discreb").val();
+
+        $.ajax({
+            beforeSend: csrfTokenHeader,
+            url:"/CreateBookAPIView/",
+            async:false,
+            data:{
+                bookName:bookName,
+                author:author,
+                type:type,
+                describe:describe
+            },
+            dataType:"json",
+            type:"POST",
+            success:function(data){
+                if (!data.code){
+					window.location.href = "/bookManager/";
+                }
+                else {
+                    alert(data.data+"error");
+                }
+            },
+            error:function(){
+                alert("创建失败");
+            }
+        });
+
+    }
+    </script>
+</body>
+
+</html>

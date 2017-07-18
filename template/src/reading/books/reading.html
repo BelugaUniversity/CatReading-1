@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=0.36,user-scalable=no,minimal-ui">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="/static/src/css/reset.css">
+		<title>阅读器</title>
+		<style type="text/css">
+		html{
+			width: 100%;
+			height: 100%;
+			overflow-x: hidden;
+		}
+		body{
+			background-color: #F5F2ED;
+			font-size: 40px;
+			overflow: hidden;
+		}
+		.content{
+			padding: 52px;
+		}
+		.middle h4{
+			color: #353535;
+		}
+		.navRoute{	
+			text-overflow: ellipsis;
+   	 		white-space: nowrap;
+    		overflow: hidden;
+    		padding-left: 3px;
+    		display: block;
+    		height: 80px;
+		}
+		.navRoute a.navTxt{
+			color: #999;
+			display: inline-block;	
+			vertical-align: middle;
+			line-height: 80px;
+		}
+		.navRoute a.navHome{
+			width: 50px;
+			height: 50px;
+			display: inline-block;
+			background: url(/static/src/img/icon/home.png) no-repeat;
+			vertical-align: middle;
+		}	
+		.navjiantou{
+			width: 50px;
+			height: 50px;
+			display: inline-block;
+			background: url(/static/src/img/icon/onejiantou.png) no-repeat left;
+			vertical-align: middle;
+			margin-left: 18px;
+		}
+		.middle h4{
+			font-size: 56px;
+			color: #353535;
+			font-weight: 400;
+			text-align: center;
+			margin: 44px 0;
+		}
+		.adjust{
+			margin-bottom: 36px;
+		}
+		.bgAdj{
+ 			float: left;
+		}
+		.contentBg{
+ 			width: 68px;
+ 			height: 68px;
+ 			border-radius: 34px;
+ 			display: inline-block;
+ 			border: 2px solid #BFBFBF;
+ 			vertical-align: middle;
+ 			margin: 0 6px;
+ 			opacity: 1;
+ 			text-align: center;
+ 			line-height: 68px;
+ 			font-size: 36px;
+ 			color: #999;
+ 		}
+ 		.colordeflaut{
+ 			background-color: #F5F2ED;
+ 		}
+ 		.colorOne{
+ 			background-color: #FAF5E6;
+ 		}
+ 		.colorTwo{
+ 			background-color: #D6F1D7;
+ 		}
+ 		.colorThree{
+ 			background-color: #FFF;
+ 		}
+ 		.contentSwitch{
+ 			width: 68px;
+ 			height: 68px;
+ 			display: inline-block;
+ 			vertical-align: middle;
+ 			margin: 0 6px;
+ 		}
+ 		.day{
+ 			background: url(/static/src/img/icon/sun.png);
+ 			background-size: 100% 100%;
+ 		}
+ 		.night{
+ 			background: url(/static/src/img/icon/night.png) no-repeat;
+ 			background-size: 100% 100%;
+ 		}
+ 		.fontAdj{
+ 			float: right;
+ 		}
+ 		.fontAdj span{
+ 			display: inline-block;
+ 			background: #C8C8C8;
+ 			width: 106px;
+ 			height: 62px;
+ 			border: solid 1px #C8C8C8;
+ 			border-radius: 8px;
+ 			color: #FFF;
+ 			text-align: center;
+ 			line-height: 62px;
+ 			margin-left: 10px;
+ 			font-size: 36px;
+ 		}
+ 		.contentTxt{
+ 			font-size: 44px;
+ 		}
+ 		.contentTxt p{
+ 			text-align: justify;
+ 			color: #666;
+ 			line-height: 70px;
+ 			padding: 28px 0;
+ 			text-indent: 2em; 	
+ 		}
+ 		.author-say {
+		    padding: 35px;
+		    border-top: 2px solid #960;
+		    color: #999;
+		    font-size: 20px;
+		}
+    	.author-say p{
+    		padding-bottom: 30px;
+    	}
+    	.author-say a{
+    		color: #960;
+    	}
+    	.u-tap{
+    		width: 100%;
+ 			height: 90px;
+ 			text-align: center;
+ 			margin: 0 auto;
+ 			line-height: 90px;
+ 			color: #fff;
+ 			padding-top: 100px;
+ 			font-size: 40px;
+ 		}
+ 		.u-tap li{
+ 			display: inline-block;
+ 			background-color: #C0C0C0;
+ 			border-radius: 16px;
+ 			width: 30%;
+ 			height: 100%;
+ 		}
+ 		.u-tap li:nth-child(2){
+ 			margin: 0 3%;
+ 		}
+/*		.collection{   收藏
+			width: 100%;
+			height: 132px;
+			background: #333;
+			left: 0;
+			top: 0;
+			z-index: 9999;
+		}
+		.collecText{
+			font-size: 46px;
+			color: #FFF;
+			line-height: 132px;
+			float: left;
+			padding-left: 36px;
+		}
+		.collectButton{
+			float: right;
+			line-height: 132px;
+		}
+		.collectSure{
+			width: 150px;
+			height: 78px;
+			font-size: 40px;
+			color: #FFF;
+			background-color: #2E9DE7;
+			border: 5px solid #2E9DE7;
+			border-radius: 5px;
+			margin-right: 20px;
+		}
+		.collectCancel{
+			width: 150px;
+			height: 78px;
+			font-size: 40px;
+			color: #FFF;
+			background-color: #C0C0C0;
+			border: 5px solid #C0C0C0;
+			border-radius: 5px;
+			margin-right: 28px;
+		}*/
+		</style>
+	</head>
+	<body>
+			<div class="content">
+				<div class="navRoute">
+					<a href="#" class="navHome"></a><span class="navjiantou"></span><a href="#" class="navTxt" id="bookName"></a><span class="navjiantou"></span><a href="#" class="navTxt" id="navTxt">章节目录</a>
+				</div>
+				<div class="middle">
+					<h4 id="title"></h4>
+					<div class="adjust clearfix">
+						<div class="bgAdj">
+							<div class="contentBg colordeflaut" id="deflautColor">A</div>
+							<div class="contentBg colorOne" id="firstColor">A</div>
+							<div class="contentBg colorTwo" id="secondColor">A</div>
+							<div class="contentBg colorThree" id="thirdColor">A</div>
+							<div class="contentSwitch night" id="dayNight"></div>
+						</div>
+						<div class="fontAdj">
+							<span id="bigger" v-on:click="fontAdj">+ A</span>
+							<span id="smaller" v-on:click="fontAdj">- A</span>
+						</div>
+					</div>
+					<!-- adjust结束 -->
+					<div class="contentTxt" id="contentTxt">
+						<p></p>
+					</div>
+
+					<!--	 -->
+					<div class="goButton">
+						<ul class="u-tap">
+							<li class="preButton" id="preButton">上一章</li>
+							<li><a style="color: #FFF; width: 100%; height: 100%; display: block;" id = "footCatalogue">目 录</a></li>
+							<li class="next-button" id="nextButton">下一章</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- content结束 -->
+		</div>
+		<!-- root结束 -->
+		<script src="/static/src/js/lib/zepto.min.js"></script>
+		<script>
+			//缓存方法封装
+			var Util = (function(){
+				var prefix = 'html5_reader_';
+				var storageGetter = function(key){
+					return localStorage.getItem(prefix + key);
+				}
+				var storageSetter = function(key, val){
+					return localStorage.setItem(prefix + key, val);
+				}
+				return{
+					storageGetter:storageGetter,
+					storageSetter:storageSetter
+				}
+			})();
+			//DOM元素的获取
+			var deflautColor = $('#deflautColor');
+			var firstColor = $('#firstColor');
+			var secondColor = $('#secondColor');
+			var thirdColor = $('#thirdColor');
+			var dayNight = $('#dayNight');
+			var body = $('body');
+			var title = $('#title')
+			//标记夜间模式状态
+			var NightMode = false;
+			var contentTxt = $('#contentTxt'); //段落字体
+			var bigger = $('#bigger');
+			var smaller = $('#smaller');
+			var nextButton = $('#nextButton');
+			var preButton = $('#preButton');
+			//背景颜色设置
+			InitBackgroundColor = Util.storageGetter('background_color');
+			if (!InitBackgroundColor) {
+				 InitBackgroundColor = "#F5F2ED";
+				}
+			if(InitBackgroundColor == "rgb(0, 0, 0)"){
+				dayNight.removeClass("night").addClass('day');
+				body.css('background-color','#000');
+				title.css('color','#BE9A51');
+				NightMode = true;
+				console.log(0);
+			}else{
+				body.css('background-color', InitBackgroundColor);
+			}
+			
+			//背景颜色切换
+			function bgChange(currentColor){
+				body.css('background-color',currentColor);
+				if(NightMode){
+					dayNight.removeClass("day").addClass("night");
+					title.css('color','#353535');
+					NightMode = false;
+				}
+				InitBackgroundColor = currentColor;
+				Util.storageSetter('background_color', InitBackgroundColor);
+			}
+			deflautColor.click(function(){
+				bgChange($(this).css('background-color'));
+			});
+			firstColor.click(function(){
+				bgChange($(this).css('background-color'));
+			});
+			secondColor.click(function(){
+				bgChange($(this).css('background-color')); 
+			});
+			thirdColor.click(function(){
+				bgChange($(this).css('background-color')); 
+			});
+			//白天黑夜模式切换
+			function changeDayNight(){
+				if(NightMode){
+					dayNight.removeClass("day").addClass("night");
+					body.css('background-color','#F5F2ED');
+					title.css('color','#353535');
+					NightMode = false;
+				}
+				else if(!NightMode){
+					dayNight.removeClass("night").addClass('day');
+					body.css('background-color','#000');
+					title.css('color','#BE9A51');
+					NightMode = true;
+				}
+				InitBackgroundColor = body.css('bac-kground-color');
+				Util.storageSetter('background_color', InitBackgroundColor);
+			}
+			dayNight.click(function(){
+				changeDayNight();
+			});
+			//字体设置
+			InitFontSize = Util.storageGetter('font_size');
+			InitFontSize = parseInt(InitFontSize);
+			if (!InitFontSize) {
+				InitFontSize = 44;
+			}
+			contentTxt.css('font-size', InitFontSize);
+			//字体放大
+			bigger.click(function() {
+				if (InitFontSize > 60) {
+					return;
+				}
+				InitFontSize += 8;
+				Util.storageSetter('font_size', InitFontSize);
+				contentTxt.css('font-size',InitFontSize);
+			});
+
+			//字体缩小
+			smaller.click(function() {
+				if (InitFontSize < 28) {
+					return;
+				}
+				InitFontSize -= 8;
+				Util.storageSetter('font_size', InitFontSize);
+				contentTxt.css('font-size',InitFontSize);
+			});
+
+			//数据
+			var charpterId = 1;	//章节id需要切
+			var bookId = 1;		//书籍id需要切
+			var bookurl = document.location.href;
+			var bookArray = bookurl.split('/');
+			bookId = bookArray[4];
+			charpterId = bookArray[6];
+			var allId = 10;
+			function changePage(data){		//改变内容函数
+				var arrays = data.chaptersContent.split('\n');
+				allId = data.chaptersNumber
+				//数据处理
+				$('#title').html('第' + charpterId + '章  ' + data.chaptersName);
+				$('#bookName').attr('href', '../../../' + bookId + '/')							//退几层要试，找前端
+				$('#navTxt').attr('href', '../../../' + bookId + '/charpters/' + charpterId + '/')
+				$('#footCatalogue').attr('href', '/catalogue/' + bookId)
+				$('#bookName').html(data.bookName);
+				$('#contentTxt').html('')
+				for(var i = 0; i <arrays.length; i++){
+					$('#contentTxt').append('<p>' + arrays[i] + '</p>');
+				}
+					
+			}
+
+			var url = "/ReadingViewAPI/";
+			$.get(url, {"chaptersId": charpterId, "bookId": bookId}, function(data){  //页面加载时绑定
+				data = $.parseJSON(data);
+				changePage(data)
+			})
+			nextButton.click(function(){     //点下一章时绑定
+				if (charpterId >= allId	) {
+					return  
+				}
+				charpterId++;
+				$.get(url, {"chaptersId": charpterId, "bookId": bookId}, function(data){
+					data = $.parseJSON(data);
+					changePage(data)
+				})
+			})
+
+			preButton.click(function(){     //点上一章时绑定
+				if (charpterId <= 1) {
+					return
+				}
+				charpterId--;
+				$.get(url, {"chaptersId": charpterId, "bookId": bookId}, function(data){
+					data = $.parseJSON(data);
+					changePage(data)
+				})
+			})
+		</script>
+	</body>
+</html>

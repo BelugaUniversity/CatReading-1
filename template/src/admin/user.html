@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../favicon.ico">
+    <title>猫阅读后台管理</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/src/css/admin/dashboard.css" rel="stylesheet">
+    <!--弹框插件-->
+    <link href="http://cdn.bootcss.com/remodal/1.1.1/remodal.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/remodal/1.1.1/remodal-default-theme.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/bookManager/">猫阅读</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid" id="app">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li><a href="/bookManager/">书籍管理</a></li>
+                    <li class="active"><a href="#">用户管理</a></li>
+                    <li><a href="/datastatistics/">数据统计</a></li>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-sm-offset-2 main">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>电话号码</th>
+                                <th>注册时间</th>
+                                <th>推荐票</th>
+                                <th>钻石票</th>
+                                <th>猫币余额</th>
+                                <th>是否禁用</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody v-for="userInfoItem in userInfo">
+                            <tr>
+                                <td>[[userInfoItem.userName]]</td>
+                                <td>[[userInfoItem.phone]]</td>
+                                <td>[[userInfoItem.registerTime]]</td>
+                                <td>[[userInfoItem.recommendTicket]]</td>
+                                <td>[[userInfoItem.diamondTicket]]</td>
+                                <td>[[userInfoItem.balance]]</td>
+                                <td v-if="userInfoItem.isForbidden">用户禁用</td>
+                                <td v-else>用户可用</td>
+                                <td><a  href="#modal" v-on:click="editUser(userInfoItem)">编辑</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="remodal text-left" data-remodal-id="modal">
+                        <button data-remodal-action="close" class="remodal-close"></button>
+                        <div style="border-bottom: solid 1px #E6E6E6; margin-bottom: 20px;">
+                            <h3>修改用户信息</h3>                
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>用户名</label>
+                                <input v-model="editUserName" type="text" class="form-control">                                
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col-sm-6">
+                                <label>手机号</label>
+                                <input v-model="editPhone" type="text" class="form-control">                              
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 15px;">
+                            <div class="col-sm-6">
+                                <div class="form-group" style="float: left;">
+                                    <label>是否禁用</label>
+                                    <input type="checkbox" class="form-control">
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <div v-on:click="saveUserInfo" class="btn btn-primary">
+                                    保存更改
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                <nav class="text-right" style="margin-bottom: 50px;">
+                    <span>页数:[[numPage]]/[[pageNumber]]</span>
+                    <button v-on:click="turnPage(numPage-1)" type="button" class="btn btn-primary" style="margin-left: 10px;">上一页</button>
+                    <button v-on:click="turnPage(numPage+1)" type="button" class="btn btn-primary" style="margin-left: 5px;">下一页</button>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <script src="/static/src/js/lib/vue.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/remodal/1.1.1/remodal.js"></script>
+    <script src="/static/src/js/util/csrfTokenHeader.js"></script>
+    <script type="text/javascript">
+
+
+    var v = new Vue({
+        el: "#app",
+        delimiters: ['[[', ']]'],
+        data: {
+            numPage: 1,
+            pageNumber: "",
+
+            editId: "",
+            editUserName: "",
+            editPhone: "",
+            editUserType: "",
+            editPassword: "",
+
+            userInfo: []
+            },
+        methods: {
+            turnPage: function (numPage) {
+                if(numPage <= v.pageNumber && numPage > 0)
+                {
+                    $.get("/ShowUserListAPIView/", {
+                        numPage: numPage
+                    }, function(data) {
+                        data = $.parseJSON(data);
+                        v.numPage = numPage;
+                        v.userInfo = data.userInfo;
+                    });
+                }
+            },
+            editUser: function(user){
+                v.EditState = 1
+                v.editId = user.id;
+                v.editUserName = user.userName;
+                v.editPhone = user.phone;
+            },
+            saveUserInfo: function(){
+                $.ajax({
+				    beforeSend: csrfTokenHeader,
+                    url: "/EditUserAPIView/",
+                    async: false,
+                    type: "POST",
+                    data: {
+                        userId: v.editId,
+                        userName: v.editUserName,
+                        userPhone: v.editPhone,
+                        userPassword: v.editPassword,
+                        userType: 1
+                    },
+                    success: function(data) {
+                        window.location.href = "/userManager/";
+                    },
+                    error: function() {
+                        alert("创建失败");
+                    }
+                });
+            }
+        }
+    });
+
+
+    $.ajax({
+        url: "/ShowUserListAPIView/",
+        async: false,
+        type: "GET",
+        data: {numPage: v.numPage},
+        success: function(data) {
+            data = $.parseJSON(data);
+            v.pageNumber = data.pageNumber;
+            v.userInfo = data.userInfo;
+        },
+        error: function() {
+            alert("创建失败");
+        }
+    });
+
+    </script>
+</body>
+
+</html>

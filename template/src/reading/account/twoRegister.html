@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=0.36,user-scalable=no,minimal-ui">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="/static/src/css/register.css">
+		<link rel="stylesheet" href="/static/src/css/reset.css">
+		<title>注册</title>
+	</head>
+	<body>
+		<div class="header">
+			<a href="#" class="headerLeft"><img src="/static/src/img/icon/loginArrow.jpg" onclick="javascript:history.back(-1)";></a>
+			<a href="#" class="headerMiddle">用户注册</a>
+			<a href="#" class="headerRight">登陆</a>
+		</div>
+		<div class="middle">
+			<div class="content" id="content">
+				<div class="para reg-plan-div">  <!-- 复制这一块儿，不同页面添加active-->
+					<div class="reg-plan-map">
+						<i class="i0 active">•</i>
+						<span class="sp0 active"></span>
+						<i class="i1 active">•</i>
+						<span class="sp1"></span>
+						<i class="i2">•</i>
+						<span class="sp2"></span>
+					</div>
+					<div class="reg-plan-text">
+						<span class="spt0 active">填写手机号</span>
+						<span class="spt1">设置新密码</span>
+						<span class="spt2">找回成功</span>
+					</div>
+				</div>
+	
+				<div class="userLogin">
+					<form class="search" autocomplete="off" style="margin-top:20px" onsubmit="return checksubmit()">
+						<!--<div class="bkAccount">-->
+							<!--<input type="text" id="userName" class="accountText beganLogin" placeholder='不超过8个中文,注册后不能修改' id="account"/>-->
+						<!--</div>-->
+						<div class="bkPassword">
+							<input type="password" id="password" class="accountPassword beganLogin" placeholder='6-16个数字和字母需区分大小写' id="password"/>
+						</div>
+						<div class="bkAgree" style="margin-top: 120px;">
+							<input type="text" name="checkNumber" class="accountPassword messageInput" placeholder='请输入验证码' id="checkNumber"/>
+							<input class="agreeNumber" style="background-color: #E53935; color: #FFF	" type="button" id="check-SMS" value="获取验证码" onclick="settime()" /> 
+						</div>
+						<p id="codeFalse" style="font-size: 42px; color: #E53935; display: none;">格式不正确</p>
+						<input id="submit" type="submit" value="注册" class="loginButton" />
+					</form>
+				</div>
+			</div>
+			<!-- content结束 -->
+		</div>
+		<!-- middle结束 -->
+	</body>
+	<script src="/static/src/js/lib/zepto.min.js"></script>
+	<script src="/static/src/js/util/csrfTokenHeader.js"></script>
+	<script>
+		<!--//输入判断-->
+		<!--var password = $('#password');-->
+		<!--var account = $('#account');-->
+		<!--&lt;!&ndash;var checkNumber = $('checkNumber');&ndash;&gt;-->
+		<!--function checksubmit(){-->
+			<!--if(account.val().length <= 8 && password.val().length > 6 && password.val().length < 16 && account.val() && checkNumbers.val()){-->
+				<!--return true;-->
+			<!--}else{-->
+				<!--$('#codeFalse').show();-->
+				<!--return false;-->
+			<!--}-->
+		<!--}-->
+	</script>
+	<script >
+		var countdown=60; 
+		function settime() { 
+			var checkSMS = $("#check-SMS")
+		    if (countdown == 0) {
+		        document.getElementById("check-SMS").disabled=false;
+		        checkSMS.attr('value', '获取验证码');
+		        countdown = 60; 
+		        return;
+		    } else {
+		        document.getElementById("check-SMS").disabled=true;
+		        checkSMS.attr('value', "重新发送(" + countdown + ")");
+		        countdown--; 
+		    } 
+		setTimeout(function() { 
+		    settime() }
+		    ,1000) 
+		}
+
+		$(document).ready(function($) {
+		     settime();			
+		});
+
+		$("form").on("submit", function(){
+			var password = $("#password").val();
+
+			$.ajax({
+				beforeSend: csrfTokenHeader,
+				url: "/UserRegisterAPIView/",
+  				async: false,
+				data: {password: password},
+				dataType: "json",
+				type: "POST",
+				success: function (data) {
+					console.log(data.code);
+					if(!data.code) {
+						console.log(data.data)
+						window.location.href = "/threeRegister/";
+					}
+				},
+				error: function (){
+					alert("错误");
+				}
+			});
+			return false;
+		});
+	</script>
+</html>

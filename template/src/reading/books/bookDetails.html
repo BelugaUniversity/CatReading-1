@@ -1,0 +1,256 @@
+ 	<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=0.36,user-scalable=no,minimal-ui">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="/static/src/css/reset.css">
+		<link rel="stylesheet" href="/static/src/css/details.css">
+		<title>猫阅读</title>
+	</head>
+	<body>  
+		<div id="root">
+			<div class="header" id="header">
+				<div class="headerFirst">
+					<div class="headerLogo">
+							.<!-- 网站logo -->
+					</div>
+					<div class="headerNav">
+						<a href="/">首页</a>
+						<a href="/library">书库</a>
+						<a href="/rank/">排行</a>
+						<a href="/payContail/">充值</a>
+					</div>
+				</div>
+				{% if not request.user.is_authenticated %}
+				<div class="headerLogin" id="headerLogin">
+					<a href="/login/" class="loginText">登陆</a>
+					<a href="#"><img src="/static/src/img/icon/wechat.jpg"></a>
+					<a href="#"><img src="/static/src/img/icon/qq.jpg"></a>
+					<a href="#"><img src="/static/src/img/icon/baidu.jpg"></a>
+					<a href="#"><img src="/static/src/img/icon/weibo.jpg"></a>
+				</div>
+				{% else %}
+				<div class="headerLogin" id="headerLogin">
+					<a href="/center/"><img src="/static/src/img/icon/writter.jpg"></a>
+				</div>
+				{% endif %}
+			</div>
+			<!-- header结束 -->
+			<div class="middle">
+				<div class="content" id="content">
+					<div class="module clearfix"  id="showModule">
+						<div class="showImg">
+							<img v-bind:src="'/static/coverImg/'+[[ imgSrc ]]" v-bind:alt="[[ grounds ]]">
+						</div>
+						<div class="bookCell">
+							<h4>[[ title ]] </h4>
+							<p>作者：<span>[[ author ]] </span></p>
+							<p>字数：<span>[[ fontNumber ]] </span>字</p>
+							<p>点击：<span>[[ clickNumber ]] </span></p>
+							<p>书迷：<span>[[ bookFans ]] </span></p>							
+						</div>
+						<span class="status"> [[ status ]] </span>
+					</div>
+					<!-- module结束 -->
+					<div class="bookButton">
+						  <a id="startRead">开始阅读</a>
+						  <a id="followBook">追  书</a>
+						  <a id="aotoBuy">自动订阅</a>
+					</div>
+					<div class="bookRecently" id="bookRecently">
+						<div class="recentlyHeader clearfix">
+							<div class="rtlf">最近更新</div>
+							<div class="rtrt">[[ timeData ]]</div>
+						</div>
+						<a class="recentContent">
+							<img v-if="chaptersType == 1" src="/static/src/img/icon/authority.jpg">
+							第<span>[[ charpterNumber ]]</span>章 <span>[[ charpterTitle ]]</span>
+						</a>
+						<div class="recentFooter">
+							<a v-bind:href="'/catalogue/'+ bookId ">章节目录</a>
+						</div>
+					</div>
+					<div class="bookRecently" id="boost">
+						<div class="recentlyHeader clearfix">
+							<div class="rtlf" style="background: none; padding-left: 34px;">
+								捧场总数：<span>[[ lkNumber ]]</span>
+							</div>
+							<a class="rtrt" style="font-size: 42px; color:#2992CE;" id="bgPeng" v-on:click="showPeng">我要捧场</a>
+						</div>
+						<div class="recentContent" >
+							<div class="bookIcon">
+								<div class="everyIcon">
+									<img src="/static/src/img/icon/6.png">
+									<span>[[ nm1 ]]</span>个
+								</div>
+								<div class="everyIcon">
+									<img src="/static/src/img/icon/4.png">
+									<span>[[ nm2 ]]</span>个
+								</div>
+								<div class="everyIcon">
+									<img src="/static/src/img/icon/5.png">
+									<span>[[ nm3 ]]</span>个
+								</div>
+								<div class="everyIcon">
+									<img src="/static/src/img/icon/3.png">
+									<span>[[ nm4 ]]</span>个
+								</div>
+								<div class="everyIcon">
+									<img src="/static/src/img/icon/2.png">
+									<span>[[ nm5 ]]</span>个
+								</div>
+								<div class="everyIcon">
+									<img src="/static/src/img/icon/1.png">
+									<span>[[ nm6 ]]</span>个
+								</div>
+							</div>
+							<div class="recenttxt">
+								最新捧场：
+								<div class="people clearfix" v-for="btperson in btpersons">
+									<div class="peoplelf">
+										<span class="peopleName">[[ btperson.userName ]]</span>
+										<span class="peopleId">[[ btperson.Id ]]</span>
+									</div>
+									<div class="peoplert">
+										<span>[[ btperson.productionNumber ]]</span>个
+										<img V-bind:src="'/static/src/img/icon/'+btperson.rewardType+'.png'">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="recentFooter">
+							<a v-bind:href="'/bookRewardInfo/'+bookId" style="width:394px;">全部捧场记录</a>
+						</div>
+					</div>
+					<!-- 捧场结束 -->
+					<div class="bookRecently" id="bookCommand">
+						<div class="recentlyHeader clearfix">
+							<div class="rtlf" style="background: none; padding-left: 34px;">书评区</div>
+							<a class="rtrt" style="font-size: 42px; color:#2992CE;" v-on:click="showCommand">写评论</a>
+						</div>
+						<div class="recentContent">
+							<div class="bookCommand" V-for="command in commands">
+								<div class="cmTitle">
+									<span class="titleSpecial" V-if="command.commentStick">[置顶]</span>
+									<span class="titleSpecial" V-if="command.commentEssence">[精华]</span>
+									[[ command.commentTitle ]]
+								</div>
+								<div class="cmContent">
+									[[ command.commentContent ]]
+								</div>
+								<div class="cmInfo">
+									<div class="infoWritter">
+										[[ command.userName ]]
+									</div>
+									<div class="infoTime">[[ command.updateTime ]]</div>
+								</div>
+							</div>
+						</div>
+						<div class="recentFooter">
+							<a v-bind:href="'/bookCommentInfo/'+bookId" style="width:300px;">更多评论</a>
+						</div>
+					</div>
+					<!-- 评论结束 -->
+				</div>
+				<!-- content结束 -->
+			</div>
+			<!-- middle结束 -->
+			<div class="footer">
+				<p class="footerTit">关于猫阅读  联系我们</p>
+				<p class="footerTxt">客服邮箱：maoyuedu@maoyuedu.com</p>
+				<p class="footerTxt">客服电话：010-12345678</p>
+				<p class="footerTxt">客服QQ：123456789</p>
+				<p class="footerTxt">京ICP证123456号 京ICP备123456号-1</p>
+				<p class="footerTxt">Copyright © 2017 maoyd.com All rights reserved.</p>
+			</div>
+			<!-- footer结束 -->
+		</div>
+		<!-- root结束 -->
+		<div style="display: none;" id="pengChang">
+			<div class="fixPen closePen"></div>
+			<div class="pengChang">
+				<h4>捧场<img class="penClose closePen" src="/static/src/img/icon/close.png">
+				</h4>
+				<form action="#" method="post" class="pengForm" onsubmit="return false">
+					<label for="item1" class="penChoose">
+						<input type="radio" id="item1" name="rewardType" checked="checked" value="1" class="raChoose"/>
+						<img src="/static/src/img/icon/1.png" alt="猫球"/>
+						<span class="penName">猫球</span>
+						<span class="exchange"><em class="count">100</em> 猫币</span><span class="unit">/个</span>
+					</label>
+					<label for="item2" class="penChoose">
+						<input type="radio" id="item2" name="rewardType" value="2" class="raChoose"/>
+						<img src="/static/src/img/icon/2.png" alt="猫薄荷"/>
+						<span class="penName">猫薄荷</span>
+
+						<span class="exchange"><em class="count">500</em> 猫币</span><span class="unit">/个</span>
+					</label>
+					<label for="item3" class="penChoose">
+						<input type="radio" id="item3" name="rewardType" value="3" class="raChoose"/>
+						<img src="/static/src/img/icon/3.png" alt="逗猫棒"/>
+						<span class="penName">逗猫棒</span>
+						<span class="exchange"><em class="count">1000</em> 猫币</span><span class="unit">/个</span>
+					</label>
+					<label for="item4" class="penChoose">
+						<input type="radio" id="item4" name="rewardType" value="4" class="raChoose"/>
+						<img src="/static/src/img/icon/5.png" alt="鱼"/>
+						<span class="penName">鱼</span>
+						<span class="exchange"><em class="count">3000</em> 猫币</span><span class="unit">/个</span>
+					</label>
+					<label for="item5" class="penChoose">
+						<input type="radio" id="item5" name="rewardType" value="5" class="raChoose"/>
+						<img src="/static/src/img/icon/4.png" alt="猫粮"/>
+						<span class="penName">猫粮</span>
+						<span class="exchange"><em class="count">5000</em> 猫币</span><span class="unit">/个</span>
+					</label>
+					<label for="item6" class="penChoose">
+						<input type="radio" id="item6" name="rewardType" value="6" class="raChoose"/>
+						<img src="/static/src/img/icon/6.png" alt="猫窝"/>
+						<span class="penName">猫窝</span>
+						<span class="exchange"><em class="count">10000</em> 猫币</span><span class="unit">/个</span>
+					</label>
+
+					<div class="item">
+						<div class="itemNumber">
+							数量
+						</div>
+						<div class="itemControl">
+							<input name="inputCount" value="1" minlength="1" maxlength="10" class="penText" id="penText" type="text"/>
+						</div>
+					</div>
+					<div class="ft">
+						<input type="submit" value="捧 场" class="penSubmit" id="penSubmit"/>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!-- 捧场悬浮框 -->
+		<div class="fixCommand" id="fixCommand" style="display: none;">
+			<div class="fcTop closePen"></div>
+			<div class="commentContent">
+				<div class="addContent">
+					<div class="contentTitle"><span>写评论</span><img class="penClose closePen" src="/static/src/img/icon/close.png"></div>
+					<input placeholder="标题（必填）" maxlength="12" class="addTitle" type="text" id="addTitle">
+					<div class="allText">
+						<textarea placeholder="评论内容（必填）" class="addText" oninput="countInput(this)" maxlength="50" id="addText"></textarea>
+						<p>还可以输入
+							<span class="inputSize">50</span>字
+						</p>
+					</div>
+				</div>
+				<div style="text-align: center;">
+					<span class="contentSubmit" id="contentSubmit">发 表</span>
+				</div>
+			</div>
+		</div>
+		<!-- 评论悬浮框 -->
+	<script src="/static/src/js/lib/zepto.min.js"></script>
+
+	<script src="/static/src/js/lib/vue.js"></script>
+	<script src="/static/src/js/app/books/bookDetails.js"></script>
+	<script>
+
+	</script>
+	</body>
+</html> 

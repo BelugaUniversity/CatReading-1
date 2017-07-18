@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>猫阅读后台管理</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- Custom styles for this template -->
+    <link href="/static/src/css/admin/dashboard.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/bookManager/">猫阅读</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li class="active"><a href="/bookManager/">书籍管理<span class="sr-only">(current)</span></a></li>
+                    <li><a href="/userManager/">用户管理</a></li>
+                    <li><a href="/datastatistics/">数据统计</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="app">
+                <ol class="breadcrumb">
+                    <li><a href="/bookManager/">作品管理</a></li>
+                    <li class="active">[[bookName]]</li>
+                </ol>
+                <ul class="nav nav-tabs">
+                    <li><a v-bind:href="'/editbookinfo/'+bookId">作品设置</a></li>
+                    <li><a v-bind:href="'/WriteChapter/'+bookId">草稿箱</a></li>
+                    <li class="active"><a href="#">已发布章节</a></li>
+                    <li><a v-bind:href="'/commentManager/'+bookId">评论管理</a></li>
+                </ul>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>章节数</th>
+                                <th>章节名</th>
+                                <th>字数</th>
+                                <th>浏览量</th>
+                                <th>章节类型</th>
+                                <th>更新时间</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr v-for="item in items">
+                                <td>第[[ item.chaptersId ]]章</td>
+                                <td>[[ item.chaptersName ]]</td>
+                                <td>[[ item.wordNumber ]]</td>
+                                <td>[[ item.chaptersPV ]]</td>
+                                <td>[[ item.chaptersType ]]</td>
+                                <td>[[ item.updateTime ]]</td>
+                                <td>
+                                    <a>查看</a>
+                                    <a  v-on:click="del(item.chaptersId)">删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/src/js/lib/vue.js"></script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/static/src/js/util/csrfTokenHeader.js"></script>
+    <script type="text/javascript">
+
+    var v = new Vue({
+        delimiters: ['[[', ']]'],
+        el: "#app",
+        data: {
+            bookName: "",
+            bookId: "",
+            items: [{
+                chaptersId: "",
+                chaptersName: "",
+                wordNumber: "",
+                chaptersPV: "",
+                chaptersType: "",
+                updateTime: ""
+            }]
+        },
+        methods: {
+            del: function(chaptersId) {
+                $.ajax({
+                    beforeSend: csrfTokenHeader,
+                    url: "/DeleteChapterAPIView/",
+                    async: false,
+                    data: {
+                        bookId: v.bookId,
+                        chaptersId: chaptersId
+                    },
+                    dataType: "json",
+                    type: "GET",
+                    success: function(data) {
+                        console.log(data.code);
+                        if (!data.code) {
+                            window.location.href = window.location.href;
+                        }
+                    },
+                    error: function() {
+                        alert("错误");
+                    }
+                });
+            }
+        }
+    })
+
+    function getBookId(){
+            var url=window.location.href;
+            var s=url.split('/');
+            var bookId;
+            for (x in s){
+            var bookIdTest = new RegExp("^[0-9]+$").test(s[x]);
+                if (bookIdTest==true){
+                    bookId=parseInt(s[x]);
+                    return bookId;
+                }
+            }
+        }
+
+    v.bookId = getBookId();
+
+    $(document).ready(function(){
+         $.get("/ChaptersListAPIView/",{
+                bookId: v.bookId,
+                pagesNumber: 1
+            }, function(data){
+                data = $.parseJSON(data);
+                v.bookName = data.name;
+                v.items = data.chaptersList;
+            });
+    });
+    </script>
+</body>
+
+</html>

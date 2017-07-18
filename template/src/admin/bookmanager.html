@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>猫阅读后台管理</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- Custom styles for this template -->
+    <link href="/static/src/css/admin/dashboard.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!--弹框插件-->
+    <link href="http://cdn.bootcss.com/remodal/1.1.1/remodal.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/remodal/1.1.1/remodal-default-theme.css" rel="stylesheet">
+    <style type="text/css">
+    .bookMenu tbody tr td {
+        line-height: 66px;
+    }
+    
+    .sub-header span {
+        color: #AAA;
+    }
+    
+    .funcButton a {
+        height: 33%;
+        width: 100%;
+    }
+    </style>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+</head>
+
+<body>
+    <!--<nav class="navbar navbar-inverse navbar-fixed-top">-->
+        <!--<div class="container-fluid">-->
+            <!--<div class="navbar-header">-->
+                <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">-->
+                    <!--<span class="sr-only">Toggle navigation</span>-->
+                    <!--<span class="icon-bar"></span>-->
+                    <!--<span class="icon-bar"></span>-->
+                    <!--<span class="icon-bar"></span>-->
+                <!--</button>-->
+                <!--<a class="navbar-brand" href="#">猫阅读</a>-->
+                <!--<button type="button" class="btn btn-default navbar-btn">Sign in</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</nav>-->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+				 <div id="navbar" class="navbar-collapse collapse">
+                     <a class="navbar-brand" href="#">猫阅读</a>
+		        </div>
+		</div>
+	</nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li class="active"><a href="/bookManager/">书籍管理<span class="sr-only">(current)</span></a></li>
+                    <li><a href="/userManager/">用户管理</a></li>
+                    <li><a href="/datastatistics/">数据统计</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="app">
+                <div class="row">
+                    <ol class="breadcrumb">                
+                        <li class="active">书籍管理</li>
+                    </ol>                     
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-2 text-center">
+                                            <strong>书籍总数</strong><br><br>
+                                            <label>[[total]]</label>                                    
+                                        </div>
+                                        <div class="col-sm-2">
+                                            仙剑 ：<label>2</label><br>
+                                            玄幻 ：<label>2</label><br>                                    
+                                            悬疑 ：<label>2</label>                                    
+                                        </div>
+                                        <div class="col-sm-2">
+                                            奇幻 ：<label>2</label><br>
+                                            军事 ：<label>2</label><br>                                    
+                                            历史 ：<label>2</label>                                     
+                                        </div>                                                            <div class="col-sm-2">
+                                            竞技 ：<label>2</label><br>
+                                            科幻 ：<label>2</label><br>                                    
+                                            校园 ：<label>2</label>                                     
+                                        </div>      
+                                        <div class="col-sm-2">
+                                            社会 ：<label>2</label><br>
+                                            其他 ：<label>2</label>                                 
+                                        </div>                                           
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>                            
+                    <div class="col-sm-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                    首页推荐 ：<label>2</label><br>                                 热门推荐 ：<label>2</label><br>                                 免费精品 ：<label>2</label>                                      
+                                    </div>
+                                    <div class="col-sm-6">
+                                    上架精品 ：<label>2</label><br>
+                                    新书推荐 ：<label>2</label>                                        
+                                    </div>                                   
+                                </div>                            
+                            </div>
+                        </div>
+                    </div>                                          
+                </div>                                 
+
+                <div class="row text-left" style="margin-bottom: 20px">
+                        <button  class="btn btn-info" onclick="window.location.href='/createBook/'">创建作品</button>      
+                </div>                
+                <div class="table-responsive">
+                    <table class="table table-striped bookMenu">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>书名</th>
+                                <th>最新章节数</th>
+                                <th>作者</th>
+                                <th>分类</th>
+                                <th>收藏</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr v-for="item in items">
+                                <td>
+                                    <img v-bind:src="'/static/coverImg/'+item.coverImg" style="width:47px; height: 66px; margin-right: 10px;"> [[item.bookName]]
+                                </td>
+                                <td v-if="item.chaptersNumber" style="line-height: 66px;">第[[item.chaptersNumber]]章</td>
+                                <td style="line-height: 66px;" v-else>未创建章节</td>                                
+                                <td>[[item.author]]</td>
+                                <td>[[item.type]]</td>
+                                <td>[[item.subscribersNumber]]</td>
+                                <td>[[item.state]]</td>
+                                <td class="funcButton">
+                                    <a v-on:click="del(item.id)">删除</a>
+                                    <a v-bind:href="'/WriteChapter/'+item.id">编辑</a>
+                                    <a href="#modal"  v-on:click="editRecommendBook(item)">推荐</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div  class="remodal text-left" data-remodal-id="modal">
+                    <button data-remodal-action="close" class="remodal-close"></button>
+                    <div style="border-bottom: solid 1px #E6E6E6; margin-bottom: 20px;">
+                        <h3>首页推荐</h3>
+                    </div>
+                    <!--<div class="row">-->
+                        <!--<div class="col-sm-6">-->
+                            <!--<label>推荐语</label>-->
+                            <!--<input placeholder="未设置" v-model="editTestimonials" type="input" class="form-control">-->
+                        <!--</div>                      -->
+                    <!--</div>-->
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="form-group col-sm-2">
+                            <label>首页推荐</label>
+                            <select v-model="editHeadImgBook" class="form-control">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>热门推荐</label>
+                            <select v-model="editHotBook" class="form-control">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="1">4</option>
+                                <option value="2">5</option>
+                                <option value="3">6</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>免费推荐</label>
+                            <select v-model="editFreeBook" class="form-control">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="1">4</option>
+                                <option value="2">5</option>
+                                <option value="3">6</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>上架精品</label>
+                            <select v-model="editRankBook" class="form-control">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="1">4</option>
+                                <option value="2">5</option>
+                                <option value="3">6</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>新书推荐</label>
+                            <select v-model="editNewBook" class="form-control">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="1">4</option>
+                                <option value="2">5</option>
+                                <option value="3">6</option>
+                                <option value="1">7</option>
+                                <option value="2">8</option>
+                                <option value="3">9</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div v-on:click="saveRecommendBook(editBookId)" class="btn btn-primary">
+                                保存更改
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="text-right" style="margin-bottom: 50px;">
+                    <span>页数:[[numPage]]/[[pageNumber]]</span>
+                    <button v-on:click="turnPage(numPage-1)" type="button" class="btn btn-primary" style="margin-left: 10px;">上一页</button>
+                    <button v-on:click="turnPage(numPage+1)" type="button" class="btn btn-primary" style="margin-left: 5px;">下一页</button>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/src/js/lib/vue.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/remodal/1.1.1/remodal.js"></script>
+    <script type="text/javascript">
+
+    var v = new Vue({
+        delimiters: ['[[', ']]'],
+        el: "#app",
+        data: {
+            editBookId: "",
+            editTestimonials: "",
+            editHeadImgBook: "",
+            editHotBook: "",
+            editFreeBook: "",
+            editRankBook: "",
+            editNewBook: "",
+
+            EditState: 1,
+            total: 1,
+            now: 1,
+
+            numPage: 1,
+            pageNumber: "",
+
+            pages: 10,
+            items: []
+        },
+        methods: {
+            clone: function(obj) {
+                this.items = obj;
+            },
+            del: function(id)
+            {
+                $.ajax({
+                    url: "/DeleteBookAPIView/",
+                    async: false,
+                    data: {
+                        bookId: id
+                    },
+                    dataType: "json",
+                    type: "GET",
+                    success: function(data) {
+                        console.log(data.code);
+                        if (!data.code) {
+                            alert(data.data);
+					        window.location.href = "/bookManager/";                        
+                        }
+                    },
+                    error: function() {
+                        alert("错误");
+                    }
+                });
+            },
+            editRecommendBook: function(book){
+                v.editBookId = book.id;
+                v.editTestimonials = book.testimonials;
+                v.editHeadImgBook = book.headImgBook;
+                v.editHotBook = book.hotBook;
+                v.editFreeBook = book.freeBook;
+                v.editRankBook = book.rankBook;
+                v.editNewBook = book.newBook;
+            },
+            <!--待续***********************************************-->
+            saveRecommendBook: function(bookId){
+                $.ajax({
+                    url: "/RecommendBookAPIView/",
+                    async: false,
+                    data: {
+                        bookId: bookId,
+                        testimonials: v.editTestimonials,
+                        headImgBook: v.editHeadImgBook,
+                        hotBook: v.editHotBook,
+                        freeBook: v.editFreeBook,
+                        rankBook: v.editRankBook,
+                        newBook: v.editNewBook,                        
+                    },
+                    dataType: "json",
+                    type: "GET",
+                    success: function(data) {
+                        console.log(data.code);
+                        if (!data.code) {
+
+					        window.location.href = "/bookManager/";
+                        }
+                    },
+                    error: function() {
+                        alert("错误");
+                    }
+                });
+            },
+            turnPage: function (numPage) {
+                if(numPage<=v.pageNumber&&numPage>=0)
+                {
+                    $.get("/BookListAPIView/", {
+                        numPage: numPage
+                    }, function(data) {
+                        data = $.parseJSON(data);
+                        v.numPage = numPage;
+                        v.clone(data.bookList);
+                    });
+                }
+            },
+            saveInfo: function (bookId){
+
+            }
+        }
+    });
+
+
+    $.get("/BookListAPIView/", {
+        numPage: 1
+    }, function(data) {
+        data = $.parseJSON(data);
+        v.total = data.bookNumber;
+        v.pageNumber = data.pageNumber;
+        v.clone(data.bookList);
+    })
+    </script>
+</body>
+
+</html>

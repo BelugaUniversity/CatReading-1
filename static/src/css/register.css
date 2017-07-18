@@ -1,0 +1,286 @@
+html{
+	font-size: 10px;
+	height: 100%;
+	background-color: #F5F5F5;
+}
+.header{
+	height: 158px;
+	width: 100%;
+	background-color: #E53935;
+	font-size: 48px;
+	color: #FFF;
+	display:-moz-box; /* Firefox */
+	display:-webkit-box;
+	display: flex;
+	justify-content: space-between;
+}
+.headerLeft{
+	height: 114px;
+	width: 70px;
+	-moz-box-flex:1.0; /* Firefox */
+	-webkit-box-flex:1.0; /* Safari and Chrome */
+	box-flex:1.0;
+	padding: 44px 0 0 31px;
+	display: inline-block;
+	color: #FFF;
+}
+.headerMiddle{
+	height: 158px;
+	line-height: 158px;
+	text-align: center;
+	-moz-box-flex:1.0; /* Firefox */
+	-webkit-box-flex:1.0; /* Safari and Chrome */
+	box-flex:1.0;
+	display: inline-block;
+	color: #FFF;
+}
+.headerRight{
+	height: 158px;
+	margin-right: 61px;
+	line-height: 158px;
+	-moz-box-flex:1.0; /* Firefox */
+	-webkit-box-flex:1.0; /* Safari and Chrome */
+	box-flex:1.0;
+	display: inline-block;
+	color: #FFF;
+
+}
+/*内容*/
+.middle{
+	width: 100%;
+	height: 100%; 
+	background-color: #F5F5F5;
+	overflow: hidden;
+}
+.content{
+	padding: 38px 31px 36px 31px;
+	margin-top: 86px;
+}
+/*搜索*/
+.search{
+	margin-top: 18px;
+}
+.bkAccount{
+	width: 100%;
+	height: 130px;
+	background: url(../../../static/src/img/icon/loginPerson.jpg) no-repeat 36px;
+	background-color: #FFF;
+	overflow: hidden;
+	border-bottom: 4px solid #DDD;
+	border-top: 4px solid #DDD;
+}
+.beganLogin{
+	width: 100%;
+	height: 54px;
+	border: none;
+	font-size: 42px;
+	text-indent: .75em;
+	color: #333;
+	border-radius: 5px;
+	display: inline-block;
+	margin: 45px 0 46px 110px;
+}
+.bkPassword{
+	width: 100%;
+	height: 130px;
+	background: url(../../../static/src/img/icon/loginLock.jpg) no-repeat 36px;
+	background-color: #FFF;
+	overflow: hidden;
+	border-bottom: 4px solid #DDD;
+}
+.loginButton{
+	width: 100%;
+	height: 156px;
+	border-radius: 10px;
+	border: 2px solid #E53935;
+	background-color: #E53935;
+	margin-top: 80px;
+	font-size: 52px;
+	color: #FFF;
+}
+.loginButton:active{
+	opacity: 0.7;
+}
+input::-webkit-input-placeholder{  /*改变搜索框内默认颜色*/
+    color: #CECECE;
+}
+.loginChoose{
+	width: 100%;
+	margin-top: 72px;
+	font-size: 42px;
+}
+.loginChoose img{
+	display: inline;
+	float: left;
+	margin-right: 10px;
+}
+.chooseleft{
+	float: left;
+	text-align: center;
+}
+.chooseright{
+	float: right;
+}
+.chooseright a{
+	color: #E53935;
+}
+/*进度条*/
+.reg-plan-map {
+    clear: both;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    width: 95%;
+    height: 65px;
+    margin: 0 auto;
+}
+.reg-plan-map i {
+    text-indent: -10000px;
+    background: url(../../../static/src/img/icon/uncomelete.jpg) no-repeat 0 0;
+    width: 40px;
+    height: 40px;
+    background-size: 70%;
+    z-index: 10;
+    top: 19px;
+}
+.reg-plan-map i.active {
+    background-image: url(../../../static/src/img/icon/compelete.jpg);
+}
+.reg-plan-map span {
+    border-top: 6px solid #DADADA;
+    width: 48%;
+    top: 29px;
+}
+.reg-plan-map span.active{
+	border-top: 6px solid #E53935;
+}
+.reg-plan-map .sp1 {
+    left: 48%;
+}
+.reg-plan-map .sp2 {
+    left: auto;
+}
+.reg-plan-map .i1 {
+    left: 48%;
+    margin-left: -13px;
+}
+.reg-plan-map .i2 {
+    right: 0;
+    left: auto;
+}
+.reg-plan-map * {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.reg-plan-text {
+    overflow: hidden;
+    clear: both;
+    position: relative;
+    height: 90px;
+    width: 100%;
+    margin: 0 auto;
+    color: #969BA3;
+    padding-bottom: 110px;
+}
+.reg-plan-text span {
+    font-size: 30px;
+    position: absolute;
+    text-align: center;
+    left: 0;
+    top: 0;
+}
+.reg-plan-text span.active {
+    color: #535353;
+}
+.reg-plan-text .spt1 {
+    left: 48%;
+    margin-left: -67px;
+}
+.reg-plan-text .spt2 {
+    left: auto;
+    right: 0;
+}
+/*手机号和验证码*/
+.phone{
+	width: 100%;
+	height: 130px;
+	background: url(../../../static/src/img/icon/phone.jpg) no-repeat 36px;
+	background-color: #FFF;
+	overflow: hidden;
+	border-bottom: 4px solid #DDD;
+	border-top: 4px solid #DDD;
+}
+.message{
+	width: 100%;
+	height: 130px;
+	background: url(../../../static/src/img/icon/message.jpg) no-repeat right;
+	background-color: #FFF;
+	overflow: hidden;
+	border-bottom: 4px solid #DDD;
+}
+.messageInput{
+	width: 15em;
+	height: 54px;
+	border: none;
+	font-size: 42px;
+	text-indent: .75em;
+	color: #333;
+	border-radius: 5px;
+	display: inline-block;
+	margin: 45px 0 46px 0;
+}
+.userAgreement{
+	color: #E53935;
+}
+/*注册界面2的验证码*/
+.bkAgree{
+	width: 100%;
+	height: 130px;
+	background-color: #FFF;
+	overflow: hidden;
+	border-bottom: 4px solid #DDD;
+	border-top: 4px solid #DDD;
+	margin-bottom: 110px; 
+}
+.agreeNumber{
+	width: 294px;
+	height: 118px;
+	background-color: #DDD;
+	display: inline-block;
+	text-align: center;
+	position: absolute;
+	right: 35px;
+	font-size: 36px;
+	color: #969BA3;
+	line-height: 118px;
+	margin-top: 6px;
+	border-radius: 16px;
+}
+/*成功注册页*/
+.compeleteRegister{
+	width: 740px;
+	height: 100px;
+	padding-top: 42px;
+	line-height: 60px;
+	font-size: 44px;
+	text-align: center;
+	margin: 0 auto;
+	color: #969BA3;
+}
+.gougou{
+	width: 100%;
+	height: 148px;
+	text-align: center;
+	margin-top: 106px;
+}
+.gougou img{
+	vertical-align: middle;
+}
+.autoSkip{
+	color: #E53935;
+	font-size: 42px;
+	text-align: center;
+	display: block;
+	margin-top: 170px;
+}

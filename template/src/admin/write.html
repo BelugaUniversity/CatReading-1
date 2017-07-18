@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <link rel="icon" href="../../favicon.ico">
+    <title>猫阅读后台管理</title>
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- Custom styles for this template -->
+    <link href="/static/src/css/admin/dashboard.css" rel="stylesheet">
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <style type="text/css">
+    .writeheader {
+        border-top: solid 1px #E6E6E6;
+    }
+
+    .writeheader .total {
+        color: #E6E6E6;
+        width: 180px;
+        height: 50px;
+        line-height: 60px;
+        padding-left: 10px;
+        border: solid 1px #E6E6E6;
+        border-top: none;
+        border-bottom: none;
+        background: #DDD;
+    }
+
+    .writeheader .selectword {
+        margin-left: 30px;
+        color: #AAA;
+    }
+
+    .writeheader select {
+        background: #FFF;
+    }
+
+    .writeheader {
+        border-bottom: solid 1px #E6E6E6;
+        border-right: solid 1px #E6E6E6;
+    }
+
+    .writeheader label {
+        margin-bottom: 0;
+    }
+
+    .clickper {
+        background: #DDD;
+    }
+
+    .click {
+        background: #efefef;
+    }
+
+    .per {
+        margin: 0;
+        padding: 10px 0 0 5px;
+        border-bottom: solid 1px #E6E6E6;
+        height: 70px;
+    }
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/bookManager/">猫阅读</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li class="active"><a href="/bookManager/">书籍管理<span class="sr-only">(current)</span></a></li>
+                    <li><a href="/userManager/">用户管理</a></li>
+                    <li><a href="/datastatistics/">数据统计</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="app">
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a href="/bookManager/">作品管理</a></li>
+                        <li class="active">[[bookName]]</li>
+                    </ol>                    
+                </div>
+                <ul class="nav nav-tabs">
+                    <li><a v-bind:href="'/editbookinfo/'+bookId">作品设置</a></li>
+                    <li class="active"><a href="#">草稿箱</a></li>
+                    <li><a v-bind:href="'/publish/'+bookId">已发布章节</a></li>
+                    <li><a v-bind:href="'/commentManager/'+bookId">评论管理</a></li>
+                    <li style="float:right;">
+                        <button class="btn btn-info" onclick="newChapter()">新建章节</button>
+                    </li>
+                </ul>
+
+                <div class="row"  style="border: solid 1px #E6E6E6; margin-top: 15px; height: 50px;">
+                    <div class="col-sm-2" style="background-color: #F6F6F6; border-right:  solid 1px #E6E6E6; height: 100%;">
+                            <label class="total">共[[chaptersNumber]]章</label>    
+                    </div>                        
+                    <div class="col-sm-10">
+                        <div  class="navbar-form navbar-left" >
+                            <label>章节数：[[chapterId]]</label>
+                            <label style="margin-left: 18px">章节类型：</label>                                
+                            <div class="form-group">
+                                <select class="form-control" onchange="changechaptersType(this.value)">
+                                    <option value="0">公众章节</option>
+                                    <option value="1">付费章节</option>
+                                </select>                                    
+                            </div>                             
+                        </div>
+                        <div class="navbar-form navbar-right">
+                            <button class="btn btn-default" onclick="chapterDelete()" style="margin-left: 30px;">删除</button>
+                            <button class="btn  btn-default" onclick="WordCountAPIView()">字数统计</button>
+                            <button class="btn btn-default" onclick="saveChapter()">保存</button>
+                            <button class="btn btn-success" onclick="releaseChapter()">发布</button>
+                        </div>                       
+                    </div>
+                </div>
+                <div class="row"  style="border-right:  solid 1px #E6E6E6; border-left:  solid 1px #E6E6E6; border-bottom:  solid 1px #E6E6E6; height: 650px;">
+                    <div class="col-sm-2 " style="border-right:  solid 1px #E6E6E6; padding-left: 0px; padding-right: 0px; height: 100%;">
+                        <div v-if="newChapterState"  style="border-bottom: solid 1px #E6E6E6; background-color: #E1F2FF; height: 65px;">
+                            <span>无标题</span>
+                        </div>
+                        <div v-for="item in items" v-on:click="turnto(item)"
+                            v-bind:class="{'click':item.clicked}">
+                                <p>第[[item.chaptersId]]章 <span>[[item.chaptersName]]</span></p>
+                                <p>共[[item.wordNumber]]字 <span>[[item.updateTime]]</span></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="row" style="padding-left: 6px; padding-right: 6px;">
+                            <input v-model="chapterName" placeholder="此处输入章节名" class="form-control" type="text" name="title" style="margin-top: 10px; margin-bottom: 8px; border: 0px;">
+                            <textarea v-model="chapterContent" style="border: 0px;  height: 570px;" placeholder="请输入章节内容"  class="form-control"></textarea>
+                        </div>
+                    </div>                 
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/src/js/lib/vue.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/static/src/js/util/csrfTokenHeader.js"></script>
+    <script type="text/javascript">
+    function getBookId(){
+        var url=window.location.href;
+        var s=url.split('/');
+        var bookId;
+        for (x in s){
+            var bookIdTest = new RegExp("^[0-9]+$").test(s[x]);
+            if (bookIdTest==true){
+                bookId=parseInt(s[x]);
+                return bookId;
+            }
+        }
+    }
+
+    var v = new Vue({
+        delimiters: ['[[', ']]'],
+        el: "#app",
+        data: {
+            newChapterState: 1,          // 新建章节显示状态
+            chaptersNumber: "",          // 章节总数
+            bookId: getBookId(),         // 当前书籍ID
+            bookName: "",                // 当前书名
+            chapterId: 1,               // 当前显示章节ID
+            chapterName: "",             // 当前显示章节名
+            chapterContent: "",          // 当前显示章节内容
+            chaptersType: "",
+            chaptersState: "",
+            items:[{
+                chaptersId:"",
+                chaptersName: "",
+                wordNumber: "",
+                updatetime: "",
+                clicked: ""            // 是否为正在点击
+            }]
+        },
+        methods:{
+            turnto: function(item){
+
+                // if (v.chapterName!="" || v.chapterContent!="" )
+                //     saveChapter();
+
+                this.newChapterState=0;
+
+                for (var i = this.items.length - 1; i >= 0; i--) {
+                    this.items[i].clicked=0;
+                }
+                item.clicked=1;
+                v.chapterId = item.chaptersId;
+
+                $.get("/ShowChapterAPIView/", {
+                    bookId: getBookId(),
+                    chaptersId: item.chaptersId,
+                }, function(data){
+                    data=$.parseJSON(data);
+                    v.chapterName = data.chaptersName;
+                    v.chapterContent = data.chaptersContent;
+                    v.chaptersState = data.chaptersState;
+                    v.chaptersType = data.chaptersType;
+                });
+            }
+        }
+    });
+
+    //  建立新章节
+    function newChapter(){
+        v.newChapterState=1;
+        for (var i = 0; i < v.items.length; i++) {
+            v.items[i].clicked=0;
+            v.chapterId = v.chaptersNumber+1;
+        }
+        v.chapterName="";
+        v.chapterContent="";
+    }
+
+    // 章节保存
+    function saveChapter() {
+        $.ajax({
+            beforeSend: csrfTokenHeader,
+            url: "/CreateChapterAPIView/",
+            async: false,
+            data: {
+                bookId: v.bookId,
+                chaptersName: v.chapterName,
+                chaptersType: 0,
+                chaptersContent: v.chapterContent,
+                chaptersState: 0,
+            },
+            dataType: "json",
+            type: "POST",
+            success: function(data) {
+                if (!data.code) {
+                    window.location.href = window.location.href;
+                } else {
+                    alert(data.data);
+                }
+            },
+            error: function() {
+                alert("创建失败");
+            }
+        });
+    }
+
+    // 章节发布
+    function releaseChapter() {
+        $.ajax({
+            beforeSend: csrfTokenHeader,
+            url: "/ReleaseChapterAPIView/",
+            async: false,
+            data: {
+                bookId: v.bookId,
+                chaptersName: v.chapterName,
+                chaptersType: 0,
+                chaptersContent: v.chapterContent,
+                chaptersState: 1,
+            },
+            dataType: "json",
+            type: "POST",
+            success: function(data) {
+                if (!data.code) {
+                    window.location.href = window.location.href;
+                } else {
+                    alert(data.data);
+                }
+            },
+            error: function() {
+                alert("创建失败");
+            }
+        });
+
+    }
+
+    // 章节删除
+    function chapterDelete() {
+         $.ajax({
+            url: "/DeleteChapterAPIView/",
+            async: false,
+            data: {
+                bookId: v.bookId,
+                chapterId: v.chapterId
+            },
+            dataType: "json",
+            type: "GET",
+            success: function(data) {
+                if (!data.code) {
+                    window.location.href = window.location.href;
+                } else {
+                    alert(data.data);
+                }
+            },
+            error: function() {
+                alert("创建失败");
+            }
+        });       
+    }
+
+    // 字数统计
+    function WordCountAPIView() {
+         $.ajax({
+            url: "/WordCountAPIView/",
+            async: false,
+            data: {
+                bookId: v.bookId,
+                chaptersId: v.chapterId
+            },
+            dataType: "json",
+            type: "GET",
+            success: function(data) {
+                if (!data.code) {
+                    alert("章节"+data.wordNumber+"字");
+                } else {
+                    alert(data.data);
+                }
+            },
+            error: function() {
+                alert("创建失败");
+            }
+        });
+    }
+    
+    // 页面加载
+    $(document).ready(function() {
+        $.get("/EditChapterListAPIView/", {
+            bookId: v.bookId
+        }, function(data) {
+            data = $.parseJSON(data);
+            v.bookName = data.name;
+            v.chaptersNumber = data.chaptersNumber;
+            v.chapterId = v.chaptersNumber + 1;
+            v.items = data.chaptersList;
+        });
+    });
+
+    // 改变章节类型
+    function changechaptersType(value){
+        v.chaptersType = value;
+    }
+    </script>
+</body>
+
+</html>

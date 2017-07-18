@@ -1,0 +1,15 @@
+# **coding: utf-8**
+bookType = []
+bookType.append("不限")
+bookType.append("仙剑")
+bookType.append("玄幻")
+bookType.append("悬疑")
+bookType.append("奇幻")
+bookType.append("军事")
+bookType.append("历史")
+bookType.append("竞技")
+bookType.append("科幻")
+bookType.append("军事")
+bookType.append("校园")
+bookType.append("社会")
+bookType.append("其它")

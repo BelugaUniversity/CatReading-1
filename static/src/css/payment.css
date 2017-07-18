@@ -1,0 +1,193 @@
+/*导航栏*/
+html{
+	width: 100%;
+	height: 100%;
+	font-size: 10px;
+	background-color: #F5F5F5;
+	height: 100%;
+	overflow: hidden;
+}
+body{
+	font-size: 10px;
+}
+.header{
+	width: 100%;
+}
+.headerFirst{
+	width: 100%;
+	background-color: #333;
+	height: 164px;
+}
+.headerLogo{
+	width: 20%;
+	float: left;
+}
+.headerNav{
+	width: 80%;
+	float: left;
+}
+.headerNav a{
+	display: inline-block;
+	width: 24%;
+	height: 164px;
+	color: #FFF;
+	font-size: 43px;
+	text-align: center;
+	line-height: 164px;
+	font-family: "微软雅黑";
+}
+/*登陆*/
+.headerLogin{
+	width: 100%;
+	height: 126px;
+	background-color: #FFF;
+	border-bottom: solid #DDD 1px;
+}
+.headerLogin a{
+	display: block;
+	width: 56px;
+	height: 56px;
+	margin: 32px 10px 32px 0;
+	float: right;
+}
+.headerLogin img{
+	width: 100%;
+	height: 100%;
+}
+.headerLogin .loginText{
+	width: 99px;
+	height: 126px;
+	line-height: 126px;
+	font-size: 40px;
+	color: #636563;
+	margin: 0;
+	border-right: solid 10px #DDD;
+}
+/*内容区域*/
+.middle{
+	width: 100%;
+	background-color: #F5F5F5;
+}
+.content{
+	padding: 38px 31px 36px 31px;
+}
+/*内容*/
+.nav{
+	height: 120px;
+	width: 100%;
+	font-size: 42px;
+	color: #3d4145;
+	background-color: #FFF;
+	margin: 40px 0;
+	line-height: 120px;
+}
+.navLeft{
+	float: left;
+	margin-left: 40px;
+}
+.navRight{
+	float: right;
+	margin-right: 40px;
+}
+.payLi{
+	width: 100%;
+	height: 160px;
+	line-height: 160px;
+	background-color: #FFF;
+	border-bottom: 2px solid #e6e6e6;
+	font-size: 42px;
+}
+.payImg{
+	width: 80px;
+	height: 80px;
+	display: inline-block;
+	padding-right: 30px;
+	vertical-align: middle;
+}
+.payList{
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+	color: #3d4145;
+	padding-left: 40px;
+}
+.payDetail{
+	width: 100%;
+	margin-top: 60px;
+	font-size: 42px;	
+	overflow: hidden;
+}
+.detaLi{
+	height: 160px;
+	border-bottom: 2px solid #e6e6e6;
+	background-color: #FFF;
+	line-height: 160px;
+	color: #3d4145;
+}
+.detaLeft{
+	float: left;
+	padding-left: 40px;
+}
+.detaRight{
+	float: right;
+	padding-right: 160px;
+}
+.detaSelect{
+	background: url(../../../static/src/img/icon/select.png) no-repeat right 40px center #FFF;
+	background-size: 50px;
+}
+.dataInput{
+	float: right;
+	border: none;
+	width: 50%;
+	height: 120px;
+	font-size: 42px;
+	vertical-align: middle;
+	padding-top: 20px;
+	text-align: right;
+	margin-right: 160px;
+}
+input::-webkit-input-placeholder{  /*改变搜索框内默认颜色*/
+    color: #CECECE;
+}
+.payNow{
+	margin-top: 80px;
+	font-size: 42px;
+	text-align: center;
+}
+.payNow span{
+	display: inline-block;
+	width: 86%;
+	height: 100px;
+	background-color: #2e9de7;
+	line-height: 100px;
+	color: #FFF;
+	border-radius: 16px;
+}
+.payNow span:active{
+	background-color: #0a66a3;
+}
+/*协议*/
+.loginChoose{
+	width: 100%;
+	margin-top: 30px;
+	font-size: 38px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+}
+.loginChoose span{
+	display: inline-block;
+	padding-left: 60px;
+}
+.paySure{
+	background: url(../../../static/src/img/icon/paySure.png) no-repeat left;
+	background-position: 0 -80px;
+	background-size: 40px;
+
+}
+.paynoSure{
+	background: url(../../../static/src/img/icon/paySure.png) no-repeat left;
+	background-position: 0 0px;
+	background-size: 40px;
+}

@@ -1,0 +1,193 @@
+html{
+	font-size: 10px;
+}
+body{
+	font-size: 10px;
+}
+.header{
+	width: 100%;
+}
+.headerFirst{
+	width: 100%;
+	background-color: #333;
+	height: 164px;
+}
+.headerLogo{
+	width: 20%;
+	float: left;
+}
+.headerNav{
+	width: 80%;
+	float: left;
+}
+.headerNav a{
+	display: inline-block;
+	width: 24%;
+	height: 164px;
+	color: #FFF;
+	font-size: 43px;
+	text-align: center;
+	line-height: 164px;
+	font-family: "微软雅黑";
+}
+/*登陆*/
+.headerLogin{
+	width: 100%;
+	height: 126px;
+	background-color: #FFF;
+	border-bottom: solid #DDD 1px;
+}
+.headerLogin a{
+	display: block;
+	width: 56px;
+	height: 56px;
+	margin: 32px 10px 32px 0;
+	float: right;
+}
+.headerLogin img{
+	width: 100%;
+	height: 100%;
+}
+.headerLogin .loginText{
+	width: 99px;
+	height: 126px;
+	line-height: 126px;
+	font-size: 40px;
+	color: #636563;
+	margin: 0;
+	border-right: solid 10px #DDD;
+}
+/*内容区域*/
+.middle{
+	width: 100%;
+	background-color: #F5F5F5;
+}
+.content{
+	padding: 28px 31px 36px 31px;
+}
+.navRoute{	
+	text-overflow: ellipsis;
+ 	white-space: nowrap;
+	overflow: hidden;
+	padding-left: 3px;
+	display: block;
+	height: 80px;
+	font-size: 40px;
+}
+.navRoute a.navTxt{
+	color: #999;
+	display: inline-block;	
+	vertical-align: middle;
+	line-height: 80px;
+}
+.navRoute a.navHome{
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	background: url(../../../static/src/img/icon/home.png) no-repeat;
+	vertical-align: middle;
+}	
+.navjiantou{
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+	background: url(../../../static/src/img/icon/onejiantou.png) no-repeat left;
+	vertical-align: middle;
+	margin-left: 18px;
+}
+.catalogue{
+	background: #FFF;
+	margin-top: 16px;
+}
+.ctgHeader{
+	height: 118px;
+	border: #E53935 1px solid;
+	font-size: 46px;
+	text-align: center;
+}
+.ctg{
+	width: 50%;
+	display: inline-block;
+	color: #636563;
+	float: left;
+	line-height: 118px;
+}
+.ctgActive{
+	color: #FFF;
+	background: #E53935;
+}
+.showCharpter{
+	font-size: 40px;
+	height: 1300px;
+}
+.showCharpter a{
+	color: #777;
+	height: 128px;
+	line-height: 128px;
+	border-bottom: 2px solid #EFEFEF;
+	padding-left: 104px;
+	display: block;
+}
+.payCharpter{
+	background: url(../../../static/src/img/icon/authority.jpg) no-repeat 28px;
+}
+/*翻页*/
+.ctgChoose{
+	font-size: 40px;
+	margin-top: 26px;
+	text-align: center;
+}
+.ctgBut{
+	height: 104px;
+	text-align: center;
+	display: inline-block;
+	color: #33373D;
+	background-color: #FFF;
+	line-height: 104px;
+	vertical-align: middle;
+}
+.ctgPre{
+	width: 28%;
+}
+.ctgNext{
+	width: 28%;
+}
+.ctgMore{
+	width: 36%;
+	margin: 0 2%;
+	display: inline-block;
+	position: relative;
+}
+.ctgSelect{
+	position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: inline-block;
+}
+
+/*底部*/
+.footer{
+	height: 567px;
+	background-color: #333;
+	font-size: 46px;
+	padding-left: 42px;
+	padding-top: 9px;
+	overflow: hidden;
+}
+.footerTit{
+	line-height: 92px;
+	color: #FFF;
+}
+.footerTxt{
+	line-height: 92px;
+	color: #636563;
+}
+.footer p:nth-child(6){
+	font-size: 36px;
+}
+.shiyan{
+	font-size: 50px;
+}
