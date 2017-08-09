@@ -7,8 +7,8 @@ from django.db import models
 class UserManager(models.Manager):
     use_in_migrations = True
 
-    def get_by_natural_key(self, phone):
-        return self.get(**{self.model.USERNAME_FIELD: phone})
+    def get_by_natural_key(self, userName):
+        return self.get(**{self.model.USERNAME_FIELD: userName})
 
 
 REGULAR_USER = 0
@@ -17,7 +17,7 @@ ADMIN = 1
 
 class User(AbstractBaseUser):
     # 用户名
-    userName = models.CharField(max_length=32)
+    userName = models.CharField(max_length=32, unique=True)
     # 电话号码
     phone = models.CharField(max_length=11, unique=True)
     # 是否可用
@@ -33,7 +33,7 @@ class User(AbstractBaseUser):
     # 是否禁用
     isForbidden = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'phone'
+    USERNAME_FIELD = 'userName'
     REQUIRED_FIELDS = []
 
     objects = UserManager()

@@ -42,7 +42,7 @@ class UserLoginAPIView(APIView):
         if serializer.is_valid():
             data = serializer.data
             print data
-            user = auth.authenticate(phone=data["userName"], password=data["password"])
+            user = auth.authenticate(userName=data["userName"], password=data["password"])
             if user:
                 auth.login(request, user)
                 message = "登录成功"
@@ -83,10 +83,9 @@ class UserRegisterAPIView(APIView):
         phone = request.session.get('phone')
 
         if serializer.is_valid():
-            user = User.objects.create(phone=phone)
+            user = User.objects.create(userName=phone)
             user.set_password(data["password"])
-            userName = time.strftime("%H%M%S") + str(random.randint(1000, 9999))
-            user.set_userName(userName)
+            user.phone = phone
             user.save()
             userProfile = UserProfile(User=user)
             userProfile.save()
@@ -283,6 +282,13 @@ class UserCenterAPIView(APIView):
 
 def userCenterPage(request):
     return render(request, "reading/account/concret.html")
+# class UserChaseBooks(APIView):
+#     def get(self, request):
+#         request.GET['']
+#
+#
+# class UserSubscribersBooks(APIView):
+#     def get(self, request):
 
 
 """

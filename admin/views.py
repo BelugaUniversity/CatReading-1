@@ -423,8 +423,8 @@ class ShowUserListAPIView(APIView):
         users = User.objects.all()
         paginator = Paginator(users, 5)
         pageNumber = paginator.num_pages
-        serializers = ShowUserListSerializers(paginator.page(numPage).object_list, many=True)
-        # serializers = ShowUserListSerializers(users, many=True)
+        # serializers = ShowUserListSerializers(paginator.page(numPage).object_list, many=True)
+        serializers = ShowUserListSerializers(users, many=True)
         content = QueryDict(mutable=True)
         content['userInfo'] = serializers.data
         if pageNumber >= 5:
