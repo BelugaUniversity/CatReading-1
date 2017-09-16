@@ -41,9 +41,9 @@ urlpatterns = [
     # 阅读页面API请求接口
     url(r'^ReadingViewAPI/', views.ReadingViewAPI),
 
-
-    url(r'^chaseBooksAPIView/', views.chaseBooksAPIView.as_view()),
-    url(r'^subscribersAPIView/', views.subscribersAPIView.as_view()),
+    # 详情页追书接口
+    url(r'^BookChaseViewAPI/', views.BookChaseViewAPI.as_view()),
+    # url(r'^subscribersAPIView/', views.subscribersAPIView.as_view()),
 
     url(r'^searchBooksViewAPI/', views.searchBooksViewAPI.as_view()),
 

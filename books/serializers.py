@@ -117,19 +117,75 @@ class BookInfoSerializers(serializers.ModelSerializer):
 
 
 class LibrarySerializers(serializers.ModelSerializer):
-    # chaptersName = serializers.SerializerMethodField()
-    # updateTime = serializers.SerializerMethodField()
+
+    chaptersName = serializers.SerializerMethodField()
+    updateTime = serializers.SerializerMethodField()
 
     class Meta:
         model = BookInfo
         fields = ('id', 'wordNumber', 'author',
-                  'chaptersNumber', 'bookName')
+                  'chaptersNumber', 'bookName', 'chaptersName', 'updateTime')
 
-    # def get_chaptersName(self, obj):
-    #     return obj.bookinfo_bookscontent.get(chaptersId=obj.chaptersNumber).chaptersName
+    def get_chaptersName(self, obj):
+        return obj.bookinfo_bookscontent.get(chaptersId=obj.chaptersNumber).chaptersName
 
-    # def get_updateTime(self, obj):
-    #     return obj.bookinfo_bookscontent.get(chaptersId=obj.chaptersNumber).updateTime.strftime("%m-%d %H:%M")
+    def get_updateTime(self, obj):
+        return obj.bookinfo_bookscontent.get(chaptersId=obj.chaptersNumber).updateTime.strftime("%m-%d ")
+
+
+class ShowChaseBooksSerializers(serializers.Serializer):
+    # 书籍ID
+    bookId = serializers.IntegerField(read_only=True)
+    # 书籍类型
+    type = serializers.IntegerField(read_only=True)
+    # 用户ID
+    userId = serializers.IntegerField(read_only=True)
+    # 作者名
+    author = serializers.CharField(max_length=20, read_only=True)
+    # 书名
+    bookName = serializers.CharField(max_length=20, read_only=True)
+    # 章节数
+    chaptersNumber = serializers.IntegerField(read_only=True)
+    # 总字数
+    wordNumber = serializers.IntegerField(read_only=True)
+    # 章节名
+    chaptersName = serializers.CharField(max_length=20, read_only=True)
+    # 更新时间
+    updateTime = serializers.DateTimeField(read_only=True)
+    # 状态
+    state = serializers.IntegerField(read_only=True)
+    # 封面
+    coverImg = serializers.ImageField(read_only=True)
+    # 推荐语
+    testimonials = serializers.CharField(max_length=200, read_only=True)
+
+
+class ShowChaseSubscribeSerializers(serializers.Serializer):
+    # 书籍ID
+    bookId = serializers.IntegerField(read_only=True)
+    # 书籍类型
+    type = serializers.IntegerField(read_only=True)
+    # 用户ID
+    userId = serializers.IntegerField(read_only=True)
+    # 作者名
+    author = serializers.CharField(max_length=20, read_only=True)
+    # 书名
+    bookName = serializers.CharField(max_length=20, read_only=True)
+    # 章节数
+    chaptersNumber = serializers.IntegerField(read_only=True)
+    # 总字数
+    wordNumber = serializers.IntegerField(read_only=True)
+    # 章节名
+    chaptersName = serializers.CharField(max_length=20, read_only=True)
+    # 更新时间
+    updateTime = serializers.DateTimeField(read_only=True)
+    # 状态
+    state = serializers.IntegerField(read_only=True)
+    # 封面
+    coverImg = serializers.ImageField(read_only=True)
+    # 推荐语
+    testimonials = serializers.CharField(max_length=200, read_only=True)
+
 
 
 """
@@ -147,6 +203,8 @@ class ChaptersSerializers(serializers.Serializer):
     chaptersId = serializers.IntegerField(read_only=True)
     # 章节名
     chaptersName = serializers.CharField(max_length=20, read_only=True)
+    # 章节状态
+    chaptersState = serializers.IntegerField(read_only=True)
 
 """
         Author:	         毛毛

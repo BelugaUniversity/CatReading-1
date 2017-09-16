@@ -11,11 +11,12 @@ from django.shortcuts import render
 from django.http import QueryDict, HttpResponse,HttpResponseRedirect
 from rest_framework.views import APIView
 from .serializers import UserLoginSerializer, UserRegisterSerializer, UserChaseBooksSerializer
-from comment.serializers import  CommentUserSerializers
+from books.serializers import ShowChaseBooksSerializers
+from comment.serializers import CommentUserSerializers
 from django.contrib import auth
 from .models import User
+from books.models import BooksChase, BooksSubscribe
 from comment.models import Comment
-from books.models import BookInfo, BooksContent
 from utils import SendMessage, shortcuts
 from utils.captcha import Captcha
 from django.views.decorators.csrf import csrf_exempt
@@ -261,14 +262,40 @@ class UserCenterAPIView(APIView):
         center['bookComment'] = commentserializer.data
         return HttpResponse(json.dumps(center.dict()))
 
+"""
+    Author:	         毛毛
+    Version:         0.01v
+    Date:            2017/09/16
+    description:      用户追书
+"""
 
-# class UserChaseBooks(APIView):
-#     def get(self, request):
-#         request.GET['']
-#
-#
-# class UserSubscribersBooks(APIView):
-#     def get(self, request):
+
+class ShowBooksChaseViewAPI(APIView):
+    def get(self, request):
+        # userId = User.request.userId
+        books = BooksChase.objects.filter(userId=1).all()
+        serializers = ShowChaseBooksSerializers(books, many=True)
+        chaseBook = QueryDict(mutable=True)
+        chaseBook['list'] = serializers.data
+        return HttpResponse(json.dumps(chaseBook.dict()))
+
+
+"""
+    Author:	         毛毛
+    Version:         0.01v
+    Date:            2017/09/16
+    Description:     用户订阅
+"""
+
+
+class ShowSubscribeBooksViewAPI(APIView):
+    def get(self, request):
+        # userId = User.request.userId
+        books = BooksSubscribe.objects.filter(userId=1).all()
+        serializers = ShowChaseBooksSerializers(books, many=True)
+        subscribe = QueryDict(mutable=True)
+        subscribe['list'] = serializers.data
+        return HttpResponse(json.dumps(subscribe.dict()))
 
 
 
@@ -282,13 +309,7 @@ class UserCenterAPIView(APIView):
 
 def userCenterPage(request):
     return render(request, "reading/account/concret.html")
-# class UserChaseBooks(APIView):
-#     def get(self, request):
-#         request.GET['']
-#
-#
-# class UserSubscribersBooks(APIView):
-#     def get(self, request):
+
 
 
 """

@@ -10,10 +10,11 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, Http404, QueryDict
-from rest_framework.views import APIView
-from .models import BookInfo, BooksContent
+from rest_framework.views import APIView, Response
+from .models import BookInfo, BooksContent, BooksChase, BooksSubscribe
 from reward.models import Reward
 from comment.models import Comment
+from account.models import User
 from .serializers import (
     CompetitiveListSerializers, RankListSerializers,
     ShowImgSerializers, BookInfoSerializers,
@@ -23,6 +24,7 @@ from .serializers import (
 from reward.serializers import BookInfoRewardSerializers
 from comment.serializers import BookInfoCommentSerializers
 from django.core.paginator import Paginator
+from django.db.models import Q
 from utils import booktype, shortcuts
 from datetime import datetime, timedelta
 from CatReading.custom_settings import WEBSITE_INFO
@@ -206,6 +208,157 @@ class BookInfoViewAPI(APIView):
         bookInfo['bookReward'] = bookInfoRewardSerializers.data
         return HttpResponse(json.dumps(bookInfo.dict()))
 
+# """
+#     Author:	         毛毛
+#     Version:         0.01v
+#     Date:            2017/09/12
+#     Description:     增减追书测试
+# """
+#
+#
+# class BookChaseViewAPI(APIView):
+#     def get(self, request):
+#         book = BookInfo.objects.get(id=4)
+#         wordNumber = book.wordNumber
+#         author = book.author
+#         chaptersNumber = book.chaptersNumber
+#         bookName = book.bookName
+#         coverImg = book.coverImg
+#         bookstate = book.state
+#         testimonials = book.testimonials
+#         content = BooksContent.objects.filter(chaptersId=book.chaptersNumber).get()
+#         chaptersName = content.chaptersName
+#         bookChase = BooksChase(bookId=4, userId=1, wordNumber=wordNumber, bookName=bookName,
+#                                chaptersNumber=chaptersNumber, author=author,
+#                                chaptersName=chaptersName, coverImg=coverImg,
+#                                state=bookstate, testimonials=testimonials)
+#         bookChase.save()
+#         book.chaseBooksNumber += 1
+#         book.save()
+#         return shortcuts.success_response(data="追书成功")
+
+
+class BookChaseViewAPI(APIView):
+    @csrf_exempt
+    def POST(self, request):
+        bookid = request.POST.get("bookId")
+        state = request.POST.get("isFollowed")
+        userid = User.request.userId
+        if state is 0:
+            book = BooksChase.object.filter(Q(bookId=bookid) & Q(userId=userid))
+            book.delete()
+            book.chaseBooksNumber -= 1
+            book.save()
+            return shortcuts.success_response(data="取消追书")
+        else:
+            book = BookInfo.objects.filter(id=bookid).get()
+            wordNumber = book.wordNumber
+            author = book.author
+            chaptersNumber = book.chaptersNumber
+            bookName = book.bookName
+            coverImg = book.coverImg
+            bookstate = book.state
+            testimonals = book.testimonals
+            content = BooksContent.objects.filter(chaptersId=chaptersNumber).get()
+            chaptersName = content.chaptersName
+            bookchase = BooksChase(bookId=bookid, userId=userid, wordNumber=wordNumber, bookName=bookName,
+                                   author=author, chaptersNumber=chaptersNumber, chaptersName=chaptersName,
+                                   coverImg=coverImg, state=bookstate, testimonals=testimonals)
+            bookchase.save()
+            book.chaseBooksNumber += 1
+            book.save()
+            return shortcuts.success_response(data="追书成功")
+
+
+# """
+#     Author:	         毛毛
+#     Version:         0.01v
+#     Date:            2017/09/15
+#     Description:     记录用户追书
+# """
+# class recordBooksChaseViewAPI(APIView):
+#     def POST(self, request):
+#         userid = request.POST.get("userId")
+#         bookid = request.POST.get("bookId")
+#         chaptersnumber = request.POST.get("chaptersNumber")
+#         books = BooksChase.object.filter(Q(bookId=bookid) & Q(userId=userid)).get()
+#         books.chaptersName = BooksContent.object.filter(chaptersId=chaptersnumber).get().chaptersName
+#         books.chaptersNumber = chaptersnumber
+#         books.save()
+#         return HttpResponse(state=200)
+
+
+
+"""
+    Author:	         毛毛
+    Version:         0.01v
+    Date:            2017/09/16
+    Description:     增减订阅测试
+"""
+
+
+class BookChaseViewAPI(APIView):
+    def get(self, request):
+        book = BookInfo.objects.get(id=4)
+        wordNumber = book.wordNumber
+        author = book.author
+        chaptersNumber = book.chaptersNumber
+        bookName = book.bookName
+        coverImg = book.coverImg
+        bookstate = book.state
+        testimonials = book.testimonials
+        content = BooksContent.objects.filter(chaptersId=book.chaptersNumber).get()
+        chaptersName = content.chaptersName
+        bookChase = BooksSubscribe(bookId=4, userId=1, wordNumber=wordNumber, bookName=bookName,
+                                   chaptersNumber=chaptersNumber, author=author,
+                                   chaptersName=chaptersName, coverImg=coverImg,
+                                   state=bookstate, testimonials=testimonials)
+        bookChase.save()
+        book.subscribersNumber += 1
+        book.save()
+        return shortcuts.success_response(data="订阅成功")
+
+
+"""
+    Author:	         毛毛
+    Version:         0.01v
+    Date:            2017/09/16
+    Description:     增减订阅
+"""
+
+
+class SubscribeBooksViewAPI(APIView):
+    @csrf_exempt
+    def POST(self, request):
+        bookid = request.POST.get("bookId")
+        state = request.POST.get("isSubscribed")
+        userid = User.request.userId
+        if state is 0:
+            book = BooksSubscribe.object.filter(Q(bookId=bookid) & Q(userId=userid))
+            book.delete()
+            book.subscribersNumber -= 1
+            book.save()
+            return shortcuts.success_response(data="取消订阅")
+        else:
+            book = BookInfo.objects.filter(id=bookid).get()
+            wordNumber = book.wordNumber
+            author = book.author
+            chaptersNumber = book.chaptersNumber
+            bookName = book.bookName
+            coverImg = book.coverImg
+            bookstate = book.state
+            testimonals = book.testimonals
+            content = BooksContent.objects.filter(chaptersId=chaptersNumber).get()
+            chaptersName = content.chaptersName
+            bookchase = BooksSubscribe(bookId=bookid, userId=userid, wordNumber=wordNumber, bookName=bookName,
+                                       author=author, chaptersNumber=chaptersNumber, chaptersName=chaptersName,
+                                       coverImg=coverImg, state=bookstate, testimonals=testimonals)
+            bookchase.save()
+            book.subscribersNumber += 1
+            book.save()
+            return shortcuts.success_response(data="订阅成功")
+
+
 
 """
     Author:	         毛毛
@@ -245,76 +398,87 @@ class ChaptersViewAPI(APIView):
         return HttpResponse(json.dumps(content.dict()))
 
 
-    """
+"""
 
-        Author:             毛毛
+    Author:             毛毛
 
-        Version:         0.01v
+    Version:         0.01v
 
-        Date:            2017/05/29
+    Date:            2017/05/29
 
-        Description:     书库
+    Description:     书库
 
-        request: type, wordNumbers, bookHot, updateTime, state, bookMoney, pagesNumber
+    request: type, wordNumbers, bookHot, updateTime, state, bookMoney, pagesNumber
 
-    """
+"""
 
 
 
 class LibraryAPIView(APIView):
 
     def get(self, request):
-
         Type = int(request.GET['type'])
         wordNumbers = int(request.GET['wordNumber'])
-        updateTime = int(request.GET['updateTime'])
+        updatetime = int(request.GET['updateTime'])
         state = int(request.GET['state'])
         bookMoney = int(request.GET['bookMoney'])
-        pagesNumber = request.GET['pagesNumber']
-        clicksNumber = request.GET['bookHot']
+        pagesNumber = int(request.GET['pagesNumber'])
+        bookHot = int(request.GET['bookHot'])
         books = BookInfo.objects.all()
         endTime = datetime.now()
 
         if Type is not 0:
             books = books.filter(type=Type)
 
-        # if wordNumbers is not 0:
-        #     if wordNumbers is 1:
-        #         books = books.filter(wordNumber__lt=300000)
-        #
-        #     elif wordNumbers is 2:
-        #         books = books.filter(wordNumber__range=(300000, 500000))
-        #
-        #     elif wordNumbers is 3:
-        #         books = books.filter(wordNumber__range=(500000, 1000000))
-        #     else:
-        #         books = books.filter(wordNumber__gt=1000000)
-        #
-        # if updateTime is not 0:
-        #     if updateTime is 1:
-        #         startTime = (endTime - timedelta(days=3))
-        #         books = books.filter(updateTime__range=(startTime, endTime))
-        #     elif updateTime is 2:
-        #         startTime = (endTime - timedelta(days=7))
-        #         books = books.filter(updateTime__range=(startTime, endTime))
-        #     else:
-        #         startTime = (endTime - timedelta(days=30))
-        #         books = books.filter(updateTime__range=(startTime, endTime))
-        #
-        # if state is not 0:
-        #     books = books.filter(state=state-1)
-        # if bookMoney is not 0:
-        #     books = books.filter(bookMoney=bookMoney-1)
+        if wordNumbers is not 0:
+            if wordNumbers is 1:
+                books = books.filter(wordNumber__lte=30)
+
+            elif wordNumbers is 2:
+                books = books.filter(wordNumber__range=(30, 50))
+
+            elif wordNumbers is 3:
+                books = books.filter(wordNumber__range=(50, 100))
+            else:
+                books = books.filter(wordNumber__gte=100)
+
+        if bookHot is not 0:
+            if bookHot is 1:
+                books = books.filter(hotBook=1)
+            elif bookHot is 2:
+                books = books.filter(hotBook=2)
+            elif bookHot is 3:
+                books = books.filter(hotBook=3)
+            elif bookHot is 4:
+                books = books.filter(hotBook=4)
+            else:
+                books = books.filter(hotBook=5)
+
+        if updatetime is not 0:
+            if updatetime is 1:
+                startTime = (endTime - timedelta(days=3))
+                books = books.filter(updateTime__range=(startTime, endTime))
+            elif updatetime is 2:
+                startTime = (endTime - timedelta(days=7))
+                books = books.filter(updateTime__range=(startTime, endTime))
+            else:
+                startTime = (endTime - timedelta(days=30))
+                books = books.filter(updateTime__range=(startTime, endTime))
+
+        if state is not 0:
+            books = books.filter(state=state-1)
+
+        if bookMoney is not 0:
+            books = books.filter(BookInfo__bookMoney=bookMoney-1)
 
         paginator = Paginator(books, 10)
         serializers = LibrarySerializers(paginator.page(pagesNumber).object_list, many=True)
+
         library = QueryDict(mutable=True)
         library['list'] = serializers.data
         library['yeshuNumber'] = books.count()
+
         return HttpResponse(json.dumps(library.dict()))
-
-
-
 
 
 """
@@ -345,7 +509,6 @@ def ReadingViewAPI(request):
     Description:     搜书页面APIView
 """
 
-
 class searchBooksViewAPI(APIView):
     def get(self, request):
         temp = request.GET['queryString']
@@ -361,33 +524,6 @@ class searchBooksViewAPI(APIView):
         result['list'] = searchcontent.data
         return HttpResponse(json.dumps(result.dict()))
 
-
-"""
-    Author:	         毛毛
-    Version:         0.01v
-    Date:            2017/07/08
-    Description:     加入追书
-"""
-
-
-class chaseBooksAPIView(APIView):
-
-    def get(self, request):
-        return shortcuts.success_response("请先登陆")
-
-
-"""
-    Author:	         毛毛
-    Version:         0.01v
-    Date:            2017/07/08
-    Description:     自动订阅
-"""
-
-
-class subscribersAPIView(APIView):
-
-    def get(self, request):
-        return shortcuts.success_response("请登陆登陆")
 
 
 """

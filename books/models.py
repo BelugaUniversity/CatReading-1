@@ -139,7 +139,7 @@ class BooksContent(models.Model):
     )
 
     # 对应的图书ID
-    BookInfo =models.ForeignKey(BookInfo, related_name='bookinfo_bookscontent', verbose_name="书本ID")
+    BookInfo = models.ForeignKey(BookInfo, related_name='bookinfo_bookscontent', verbose_name="书本ID")
     # 章节数
     chaptersId = models.SmallIntegerField("章节数")
     # 章节名称
@@ -161,3 +161,83 @@ class BooksContent(models.Model):
 
     class Meta:
         db_table = "book_content"
+
+
+"""
+    Author:	         毛毛
+    Version:         0.02v
+    Date:            2017/09/13
+    Description:     追书
+    history:
+
+"""
+
+
+class BooksChase(models.Model):
+    # 对应的图书ID
+    bookId = models.IntegerField("书籍Id")
+    # 用户ID
+    userId = models.IntegerField("用户Id")
+    # 书籍封面
+    coverImg = models.ImageField("书籍封面", default="./2706179_185025082_2.jpg")
+    # 作者
+    author = models.CharField("作者", max_length=20, default="佚名")
+    # 章节名称
+    bookName = models.CharField("书籍名", max_length=20)
+    # 书籍类型
+    type = models.SmallIntegerField("书籍类型", default = 1)
+    # 书籍字数
+    wordNumber = models.IntegerField("字数", default=0)
+    # 改章节更新时间
+    updateTime = models.DateTimeField("章节更新时间", auto_now_add=True)
+    # 章节名称
+    chaptersName = models.CharField("章节名称", max_length=20)
+    # 目前章节数量
+    chaptersNumber = models.SmallIntegerField("更新章节数", default=0)
+    # 更新状态
+    state = models.SmallIntegerField("更新状态", default = 0)
+    # 描述语
+    testimonials = models.CharField("推荐语", max_length=20, default="")
+
+    class Meta:
+        db_table = "book_chase"
+
+
+"""
+    Author:	         毛毛
+    Version:         0.02v
+    Date:            2017/09/16
+    Description:     订阅书籍
+    history:
+
+"""
+
+class BooksSubscribe(models.Model):
+    # 对应的图书ID
+    bookId = models.IntegerField("书籍Id")
+    # 用户ID
+    userId = models.IntegerField("用户Id")
+    # 书籍封面
+    coverImg = models.ImageField("书籍封面", default="./2706179_185025082_2.jpg")
+    # 作者
+    author = models.CharField("作者", max_length=20, default="佚名")
+    # 章节名称
+    bookName = models.CharField("书籍名", max_length=20)
+    # 书籍类型
+    type = models.SmallIntegerField("书籍类型", default = 1)
+    # 书籍字数
+    wordNumber = models.IntegerField("字数", default=0)
+    # 改章节更新时间
+    updateTime = models.DateTimeField("章节更新时间", auto_now_add=True)
+    # 章节名称
+    chaptersName = models.CharField("章节名称", max_length=20)
+    # 目前章节数量
+    chaptersNumber = models.SmallIntegerField("更新章节数", default=0)
+    # 更新状态
+    state = models.SmallIntegerField("更新状态", default = 0)
+    # 描述语
+    testimonials = models.CharField("推荐语", max_length=20, default="")
+
+    class Meta:
+        db_table = "book_subscribe"
+

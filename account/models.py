@@ -69,10 +69,6 @@ class UserProfile(models.Model):
 
 """
 
-
-
-
-
 class UserChaseBooks(models.Model):
     # 用户Id
     userId = models.IntegerField("用户ID", default=True)

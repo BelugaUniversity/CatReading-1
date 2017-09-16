@@ -30,4 +30,8 @@ urlpatterns = [
     url(r'^CheckTokenAPIView/', views.CheckTokenAPIView.as_view()),
 
     url(r'^UserCenterAPIView/', views.UserCenterAPIView.as_view()),
-]
+
+    # 个人中心追书显示
+    url(r'^ShowBooksChaseViewAPI/', views.ShowBooksChaseViewAPI.as_view()),
+    url(r'^ShowSubscribeBooksViewAPI/', views.ShowSubscribeBooksViewAPI.as_view())
+ ]
